@@ -8,7 +8,8 @@ import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
-@RestController(RestEndpoint.POST)
+@RestController
+@RequestMapping(RestEndpoint.POST)
 @AllArgsConstructor
 public class PostController {
 

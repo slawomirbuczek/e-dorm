@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(RestEndpoint.COMPOSITION)
+@RestController
+@RequestMapping(RestEndpoint.COMPOSITION)
 @AllArgsConstructor
 public class CompositionController {
 

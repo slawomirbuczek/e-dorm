@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(RestEndpoint.ROOM)
+@RestController
+@RequestMapping(RestEndpoint.ROOM)
 @AllArgsConstructor
 public class RoomController {
 

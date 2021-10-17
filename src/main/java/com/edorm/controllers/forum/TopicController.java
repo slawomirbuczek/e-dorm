@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController(RestEndpoint.TOPIC)
+@RestController
+@RequestMapping(RestEndpoint.TOPIC)
 @AllArgsConstructor
 public class TopicController {
 
