@@ -1,15 +1,18 @@
 package com.edorm.entities.users;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @SuppressWarnings("JpaDataSourceORMInspection")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -40,15 +43,48 @@ public class Address {
     private String apartmentNumber;
 
     @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("country", country)
+                .append("city", city)
+                .append("zip", zip)
+                .append("street", street)
+                .append("buildingNumber", buildingNumber)
+                .append("apartmentNumber", apartmentNumber)
+                .toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
         Address address = (Address) o;
-        return Objects.equals(id, address.id);
+
+        return new EqualsBuilder()
+                .append(id, address.id)
+                .append(country, address.country)
+                .append(city, address.city)
+                .append(zip, address.zip)
+                .append(street, address.street)
+                .append(buildingNumber, address.buildingNumber)
+                .append(apartmentNumber, address.apartmentNumber)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(country)
+                .append(city)
+                .append(zip)
+                .append(street)
+                .append(buildingNumber)
+                .append(apartmentNumber)
+                .toHashCode();
     }
+
 }

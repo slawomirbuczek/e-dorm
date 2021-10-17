@@ -2,13 +2,13 @@ package com.edorm.services.users;
 
 import com.edorm.dtos.users.UserDto;
 import com.edorm.entities.users.User;
-import com.edorm.enums.users.Role;
+import com.edorm.enums.Role;
 import com.edorm.exceptions.users.EmailAlreadyTakenException;
 import com.edorm.exceptions.users.TheSamePasswordException;
 import com.edorm.exceptions.users.UserNotFoundException;
 import com.edorm.exceptions.users.WrongPasswordException;
 import com.edorm.models.users.RequestChangePassword;
-import com.edorm.repositories.UserRepository;
+import com.edorm.repositories.users.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;

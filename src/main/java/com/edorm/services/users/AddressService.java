@@ -2,7 +2,7 @@ package com.edorm.services.users;
 
 import com.edorm.entities.users.Address;
 import com.edorm.exceptions.users.AddressNotFoundException;
-import com.edorm.repositories.AddressRepository;
+import com.edorm.repositories.users.AddressRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

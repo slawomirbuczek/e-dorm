@@ -1,8 +1,7 @@
 package com.edorm.services.users;
 
-import com.edorm.entities.users.Address;
 import com.edorm.entities.users.User;
-import com.edorm.enums.users.Role;
+import com.edorm.enums.Role;
 import com.edorm.models.users.UserRegistrationCredentials;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -22,7 +21,7 @@ public class RegistrationService {
 
     public void registerUser(UserRegistrationCredentials credentials) {
         User user = mapper.map(credentials, User.class);
-        user.setRole(Role.USER);
+        user.setRole(Role.RESIDENT);
         String password = generatePassword();
         user.setPassword(password);
         userService.addUser(user);

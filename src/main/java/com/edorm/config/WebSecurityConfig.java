@@ -4,11 +4,16 @@ import com.edorm.auth.JwtAuthenticationEntryPoint;
 import com.edorm.auth.JwtTokenAuthenticationFilter;
 import com.edorm.auth.JwtUsernameAndPasswordAuthenticationFilter;
 import com.edorm.auth.UserDetailsServiceImpl;
+
+import com.edorm.controllers.RestEndpoint;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+
 import org.modelmapper.ModelMapper;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -33,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtProperties jwtProperties;
 
+    private static final String UNIVERSAL_MATCHER = "/**";
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -54,14 +61,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
 
-                .antMatchers("/swagger-ui.html").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers(RestEndpoint.SWAGGER_UI).permitAll()
+                .antMatchers(RestEndpoint.SWAGGER_DOCUMENTATION).permitAll()
+                .antMatchers(RestEndpoint.WEB_JARS + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.SWAGGER_RESOURCES + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.H2_CONSOLE + UNIVERSAL_MATCHER).permitAll()
 
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration/**").permitAll()
+                .antMatchers(RestEndpoint.LOGIN).permitAll()
+                .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).permitAll()
+
+                .antMatchers(RestEndpoint.ROOM + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).permitAll()
 
                 .anyRequest().authenticated()
 

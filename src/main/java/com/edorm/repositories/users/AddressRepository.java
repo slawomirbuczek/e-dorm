@@ -1,4 +1,4 @@
-package com.edorm.repositories;
+package com.edorm.repositories.users;
 
 import com.edorm.entities.users.Address;
 import org.springframework.data.jpa.repository.JpaRepository;

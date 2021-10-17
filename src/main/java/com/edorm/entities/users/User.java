@@ -1,10 +1,11 @@
 package com.edorm.entities.users;
 
 
-import com.edorm.enums.users.Role;
+import com.edorm.enums.Role;
 import lombok.*;
-import org.hibernate.Hibernate;
-import org.hibernate.annotations.GenericGenerator;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Objects;
 
 import static java.util.Collections.singletonList;
 
@@ -21,22 +21,12 @@ import static java.util.Collections.singletonList;
 @Table(name = "APP_USER")
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-            name = "sequence-generator",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @org.hibernate.annotations.Parameter (name = "sequence_name", value = "user_sequence"),
-                    @org.hibernate.annotations.Parameter (name = "initial_value", value = "1000"),
-                    @org.hibernate.annotations.Parameter (name = "increment_size", value = "1")
-            }
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -92,15 +82,50 @@ public class User implements UserDetails {
     }
 
     @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("password", password)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
+                .append("email", email)
+                .append("phoneNumber", phoneNumber)
+                .append("birthday", birthday)
+                .append("role", role)
+                .toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
         User user = (User) o;
-        return Objects.equals(id, user.id);
+
+        return new EqualsBuilder()
+                .append(id, user.id)
+                .append(password, user.password)
+                .append(firstName, user.firstName)
+                .append(lastName, user.lastName)
+                .append(email, user.email)
+                .append(phoneNumber, user.phoneNumber)
+                .append(birthday, user.birthday)
+                .append(role, user.role)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return 0;
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(password)
+                .append(firstName)
+                .append(lastName)
+                .append(email)
+                .append(phoneNumber)
+                .append(birthday)
+                .append(role)
+                .toHashCode();
     }
 }

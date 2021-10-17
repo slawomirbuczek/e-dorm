@@ -1,6 +1,6 @@
 package com.edorm.auth;
 
-import com.edorm.repositories.UserRepository;
+import com.edorm.repositories.users.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
