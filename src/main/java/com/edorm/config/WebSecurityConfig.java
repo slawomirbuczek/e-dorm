@@ -73,6 +73,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.ROOM + UNIVERSAL_MATCHER).permitAll()
                 .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).permitAll()
 
+                .antMatchers(RestEndpoint.TOPIC + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.POST + UNIVERSAL_MATCHER).permitAll()
+
                 .anyRequest().authenticated()
 
                 .and()
