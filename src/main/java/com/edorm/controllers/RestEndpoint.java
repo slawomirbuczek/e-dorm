@@ -14,5 +14,8 @@ public class RestEndpoint {
     public static final String ROOM = "/rooms";
     public static final String TOPIC = "/topics";
     public static final String POST = "/posts";
+    public static final String RENTABLE_ITEM = "/rentable-items";
+    public static final String RENT_HISTORY = "/rent_history";
+
 
 }
