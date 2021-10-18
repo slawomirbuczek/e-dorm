@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+
 import java.time.LocalDate;
 
 @Data
@@ -23,6 +24,9 @@ public class UserRegistrationCredentials {
 
     @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank
+    private String password;
 
     @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$",
             message = "Phone number should be valid")
