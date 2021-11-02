@@ -4,8 +4,8 @@ import com.edorm.config.JwtProperties;
 import com.edorm.models.users.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.*;
@@ -54,7 +54,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication auth) throws IOException {
+                                            FilterChain chain, Authentication auth) {
         long now = System.currentTimeMillis();
 
         String token = Jwts.builder()
@@ -66,9 +66,11 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(jwtSecret)
                 .compact();
 
-        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+
+        /*response.setContentType(MediaType.TEXT_PLAIN_VALUE);
         response.getWriter().write("Bearer " + token);
-        response.getWriter().flush();
+        response.getWriter().flush();*/
     }
 
 }
