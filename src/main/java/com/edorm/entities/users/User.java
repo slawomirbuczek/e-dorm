@@ -2,21 +2,24 @@ package com.edorm.entities.users;
 
 
 import com.edorm.enums.Role;
+
 import lombok.*;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
 import java.time.LocalDate;
 import java.util.Collection;
 
 import static java.util.Collections.singletonList;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "APP_USER")
 @Getter
@@ -128,4 +131,5 @@ public class User implements UserDetails {
                 .append(role)
                 .toHashCode();
     }
+
 }

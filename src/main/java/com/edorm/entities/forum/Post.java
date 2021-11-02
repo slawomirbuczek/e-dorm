@@ -7,11 +7,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -43,4 +46,48 @@ public class Post {
     @OneToOne
     private User user;
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("content", content)
+                .append("createDate", createDate)
+                .append("updateDate", updateDate)
+                .append("edited", edited)
+                .append("deleted", deleted)
+                .append("user", user)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Post post = (Post) o;
+
+        return new EqualsBuilder()
+                .append(id, post.id)
+                .append(content, post.content)
+                .append(createDate, post.createDate)
+                .append(updateDate, post.updateDate)
+                .append(edited, post.edited)
+                .append(deleted, post.deleted)
+                .append(user, post.user)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(content)
+                .append(createDate)
+                .append(updateDate)
+                .append(edited)
+                .append(deleted)
+                .append(user)
+                .toHashCode();
+    }
 }

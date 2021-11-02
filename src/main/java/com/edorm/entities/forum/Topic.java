@@ -1,19 +1,23 @@
 package com.edorm.entities.forum;
 
-import com.edorm.entities.rooms.Room;
 import com.edorm.entities.users.User;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import javax.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -55,4 +59,51 @@ public class Topic {
         posts.add(post);
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("content", content)
+                .append("createDate", createDate)
+                .append("updateDate", updateDate)
+                .append("edited", edited)
+                .append("deleted", deleted)
+                .append("user", user)
+                .append("posts", posts)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Topic topic = (Topic) o;
+
+        return new EqualsBuilder()
+                .append(id, topic.id)
+                .append(content, topic.content)
+                .append(createDate, topic.createDate)
+                .append(updateDate, topic.updateDate)
+                .append(edited, topic.edited)
+                .append(deleted, topic.deleted)
+                .append(user, topic.user)
+                .append(posts, topic.posts)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(id)
+                .append(content)
+                .append(createDate)
+                .append(updateDate)
+                .append(edited)
+                .append(deleted)
+                .append(user)
+                .append(posts)
+                .toHashCode();
+    }
 }
