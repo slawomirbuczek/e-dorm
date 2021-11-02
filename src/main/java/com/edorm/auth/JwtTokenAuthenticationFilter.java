@@ -3,6 +3,7 @@ package com.edorm.auth;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +38,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = header.replace(JWT_TOKEN_PREFIX, "");
+        String token = header.replace(JWT_TOKEN_PREFIX, Strings.EMPTY);
 
         try {
             Claims claims = Jwts.parserBuilder()
