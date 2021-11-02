@@ -19,6 +19,8 @@ import java.security.Key;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.edorm.config.JwtProperties.JWT_TOKEN_PREFIX;
+
 @AllArgsConstructor
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
@@ -30,12 +32,12 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith(JWT_TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
 
-        String token = header.replace("Bearer ", "");
+        String token = header.replace(JWT_TOKEN_PREFIX, "");
 
         try {
             Claims claims = Jwts.parserBuilder()

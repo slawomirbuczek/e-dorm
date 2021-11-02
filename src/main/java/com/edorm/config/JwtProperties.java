@@ -5,6 +5,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("jwt")
 public class JwtProperties {
 
+    public static final String JWT_TOKEN_PREFIX = "Bearer ";
+
     /**
      * JWT expiration time in minutes.
      */
