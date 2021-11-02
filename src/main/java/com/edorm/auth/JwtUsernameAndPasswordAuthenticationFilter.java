@@ -1,6 +1,7 @@
 package com.edorm.auth;
 
 import com.edorm.config.JwtProperties;
+import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.users.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,8 @@ import java.util.stream.Collectors;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private static final String JWT_TOKEN_PREFIX = "Bearer ";
+
     private final AuthenticationManager authManager;
     private final JwtProperties jwtProperties;
     private final Key jwtSecret;
@@ -32,7 +35,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
         this.jwtProperties = jwtProperties;
         this.jwtSecret = jwtSecret;
 
-        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login", HttpMethod.POST.name()));
+        this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(RestEndpoint.LOGIN, HttpMethod.POST.name()));
     }
 
     @Override
@@ -66,10 +69,10 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(jwtSecret)
                 .compact();
 
-        response.addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        response.addHeader(HttpHeaders.AUTHORIZATION, JWT_TOKEN_PREFIX + token);
 
         /*response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        response.getWriter().write("Bearer " + token);
+        response.getWriter().write(BEARER_PREFIX + token);
         response.getWriter().flush();*/
     }
 
