@@ -1,7 +1,6 @@
 package com.edorm.repositories.rentable;
 
 import com.edorm.entities.rentable.RentableItem;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

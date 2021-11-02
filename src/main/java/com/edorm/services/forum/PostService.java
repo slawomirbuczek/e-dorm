@@ -2,9 +2,7 @@ package com.edorm.services.forum;
 
 import com.edorm.entities.forum.Post;
 import com.edorm.repositories.forum.PostRepository;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

@@ -1,9 +1,7 @@
 package com.edorm.models.validations;
 
 import com.edorm.models.ResponseMessage;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 

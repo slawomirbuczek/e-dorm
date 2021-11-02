@@ -3,9 +3,7 @@ package com.edorm.controllers.forum;
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.entities.forum.Post;
 import com.edorm.services.forum.PostService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController

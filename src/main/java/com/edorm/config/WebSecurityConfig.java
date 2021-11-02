@@ -1,20 +1,12 @@
 package com.edorm.config;
 
-import com.edorm.auth.JwtAuthenticationEntryPoint;
-import com.edorm.auth.JwtTokenAuthenticationFilter;
-import com.edorm.auth.JwtUsernameAndPasswordAuthenticationFilter;
-import com.edorm.auth.UserDetailsServiceImpl;
-
+import com.edorm.auth.*;
 import com.edorm.controllers.RestEndpoint;
-
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-
 import org.modelmapper.ModelMapper;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -36,10 +28,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final String UNIVERSAL_MATCHER = "/**";
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtProperties jwtProperties;
-
-    private static final String UNIVERSAL_MATCHER = "/**";
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

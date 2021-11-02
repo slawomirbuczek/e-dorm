@@ -4,9 +4,7 @@ import com.edorm.entities.rentable.RentHistory;
 import com.edorm.entities.rentable.RentableItem;
 import com.edorm.repositories.rentable.RentHistoryRepository;
 import com.edorm.services.users.UserService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 

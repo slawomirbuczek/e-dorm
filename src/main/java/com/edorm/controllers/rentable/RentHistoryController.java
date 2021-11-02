@@ -2,9 +2,7 @@ package com.edorm.controllers.rentable;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.services.rentable.RentHistoryService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

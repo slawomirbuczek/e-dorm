@@ -3,10 +3,7 @@ package com.edorm.services.users;
 import com.edorm.dtos.users.UserDto;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
-import com.edorm.exceptions.users.EmailAlreadyTakenException;
-import com.edorm.exceptions.users.TheSamePasswordException;
-import com.edorm.exceptions.users.UserNotFoundException;
-import com.edorm.exceptions.users.WrongPasswordException;
+import com.edorm.exceptions.users.*;
 import com.edorm.models.users.RequestChangePassword;
 import com.edorm.repositories.users.UserRepository;
 import lombok.AllArgsConstructor;
@@ -58,7 +55,6 @@ public class UserService {
             throw new WrongPasswordException();
         }
     }
-
 
     private String encodePassword(String password) {
         return encoder.encode(password);

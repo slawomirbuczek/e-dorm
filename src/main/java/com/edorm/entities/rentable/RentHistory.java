@@ -1,17 +1,10 @@
 package com.edorm.entities.rentable;
 
 import com.edorm.entities.users.User;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.*;
+import org.apache.commons.lang3.builder.*;
 
 import javax.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Getter

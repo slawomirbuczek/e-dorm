@@ -8,5 +8,4 @@ import org.springframework.stereotype.Repository;
 public interface RentHistoryRepository extends JpaRepository<RentHistory, Long> {
 
 
-
 }

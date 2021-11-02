@@ -1,7 +1,6 @@
 package com.edorm.repositories.rooms;
 
 import com.edorm.entities.rooms.Composition;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,9 +2,7 @@ package com.edorm.services.rentable;
 
 import com.edorm.entities.rentable.RentableItem;
 import com.edorm.repositories.rentable.RentableItemRepository;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;

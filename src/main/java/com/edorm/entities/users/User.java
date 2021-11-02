@@ -1,20 +1,13 @@
 package com.edorm.entities.users;
 
-
 import com.edorm.enums.Role;
-
 import lombok.*;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-
+import org.apache.commons.lang3.builder.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -133,3 +126,5 @@ public class User implements UserDetails {
     }
 
 }
+
+

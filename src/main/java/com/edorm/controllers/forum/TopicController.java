@@ -3,9 +3,7 @@ package com.edorm.controllers.forum;
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.entities.forum.Topic;
 import com.edorm.services.forum.TopicService;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -4,11 +4,8 @@ import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
 import com.edorm.models.users.UserRegistrationCredentials;
 import com.edorm.services.mail.MailService;
-
 import lombok.AllArgsConstructor;
-
 import org.modelmapper.ModelMapper;
-
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Executors;

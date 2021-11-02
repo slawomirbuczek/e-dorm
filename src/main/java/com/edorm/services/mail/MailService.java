@@ -1,11 +1,7 @@
 package com.edorm.services.mail;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-
+import freemarker.template.*;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,7 +10,6 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
