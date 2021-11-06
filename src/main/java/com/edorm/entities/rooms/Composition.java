@@ -19,7 +19,7 @@ public class Composition {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
     @OneToMany(targetEntity = Room.class, mappedBy = "id", fetch = FetchType.LAZY)

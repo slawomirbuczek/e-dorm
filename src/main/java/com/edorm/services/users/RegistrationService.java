@@ -1,33 +1,43 @@
 package com.edorm.services.users;
 
+import com.edorm.entities.users.Resident;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
 import com.edorm.models.users.UserRegistrationCredentials;
-import com.edorm.services.mail.MailService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.Executors;
 
 @Service
 @AllArgsConstructor
 public class RegistrationService {
 
-    private final ModelMapper mapper;
     private final UserService userService;
-    private final AddressService addressService;
-    private final MailService mailService;
+    private final ResidentService residentService;
 
     public void registerUser(UserRegistrationCredentials credentials) {
-        User user = mapper.map(credentials, User.class);
-        user.setRole(Role.RESIDENT);
-        user.setPassword(credentials.getPassword());
-        userService.addUser(user);
+        User user = mapToUser(credentials);
+        user = userService.addUser(user);
 
-        Executors.newSingleThreadExecutor().execute(
-                () -> mailService.sendCredentialsMail(user.getEmail(), user.getUsername(), credentials.getPassword())
-        );
+        Resident resident = mapToResident(credentials, user);
+        residentService.addResident(resident);
+    }
+
+    private User mapToUser(UserRegistrationCredentials credentials) {
+        User user = new User();
+        user.setEmail(credentials.getEmail());
+        user.setPassword(credentials.getPassword());
+        user.setRole(Role.RESIDENT);
+        return user;
+    }
+
+    private Resident mapToResident(UserRegistrationCredentials credentials, User user) {
+        Resident resident = new Resident();
+        resident.setFirstName(credentials.getFirstName());
+        resident.setLastName(credentials.getLastName());
+        resident.setBirthday(credentials.getBirthday());
+        resident.setPhoneNumber(credentials.getPhoneNumber());
+        resident.setUser(user);
+        return resident;
     }
 
 }

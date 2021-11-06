@@ -19,7 +19,7 @@ public class UserRegistrationCredentials {
     @Email(message = "Email should be valid")
     private String email;
 
-    @NotBlank
+    @Size(min = 5, max = 20)
     private String password;
 
     @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{1,3}\\))|\\d{1,3})[- .]?\\d{3,4}[- .]?\\d{4}$",

@@ -17,19 +17,19 @@ public class Room {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "number")
+    @Column(name = "number", nullable = false)
     private String number;
 
-    @Column(name = "floor")
+    @Column(name = "floor", nullable = false)
     private Integer floor;
 
-    @Column(name = "size")
+    @Column(name = "size", nullable = false)
     private Integer size;
 
-    @Column(name = "residents")
+    @Column(name = "residents", nullable = false)
     private Integer residents;
 
-    @Column(name = "availability")
+    @Column(name = "availability", nullable = false)
     private Boolean availability;
 
     @Override

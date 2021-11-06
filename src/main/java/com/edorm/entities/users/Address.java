@@ -18,19 +18,19 @@ public class Address {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
     private String country;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "zip")
+    @Column(name = "zip", nullable = false)
     private String zip;
 
-    @Column(name = "street")
+    @Column(name = "street", nullable = false)
     private String street;
 
-    @Column(name = "building_number")
+    @Column(name = "building_number", nullable = false)
     private String buildingNumber;
 
     @Column(name = "apartment_number")

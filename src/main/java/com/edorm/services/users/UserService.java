@@ -33,14 +33,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         if (emailAlreadyTaken(user.getEmail())) {
             throw new EmailAlreadyTakenException(user.getEmail());
         }
 
         String encodedPassword = encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public void changePassword(Long userId, RequestChangePassword request) {

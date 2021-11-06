@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Collection;
 
 import static java.util.Collections.singletonList;
@@ -26,25 +25,13 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "birthday")
-    private LocalDate birthday;
-
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -82,11 +69,7 @@ public class User implements UserDetails {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("password", password)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
                 .append("email", email)
-                .append("phoneNumber", phoneNumber)
-                .append("birthday", birthday)
                 .append("role", role)
                 .toString();
     }
@@ -102,11 +85,7 @@ public class User implements UserDetails {
         return new EqualsBuilder()
                 .append(id, user.id)
                 .append(password, user.password)
-                .append(firstName, user.firstName)
-                .append(lastName, user.lastName)
                 .append(email, user.email)
-                .append(phoneNumber, user.phoneNumber)
-                .append(birthday, user.birthday)
                 .append(role, user.role)
                 .isEquals();
     }
@@ -116,11 +95,7 @@ public class User implements UserDetails {
         return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(password)
-                .append(firstName)
-                .append(lastName)
                 .append(email)
-                .append(phoneNumber)
-                .append(birthday)
                 .append(role)
                 .toHashCode();
     }
