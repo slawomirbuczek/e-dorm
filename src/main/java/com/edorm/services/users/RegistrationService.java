@@ -26,7 +26,7 @@ public class RegistrationService {
         User user = new User();
         user.setEmail(credentials.getEmail());
         user.setPassword(credentials.getPassword());
-        user.setRole(Role.RESIDENT);
+        user.setRole(Role.BASIC);
         return user;
     }
 

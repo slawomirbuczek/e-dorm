@@ -16,7 +16,7 @@ public class RegistrationController {
 
     private final RegistrationService registrationService;
 
-    @PostMapping("/users")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void registerUser(@Valid @RequestBody UserRegistrationCredentials credentials) {
         registrationService.registerUser(credentials);
