@@ -11,6 +11,11 @@ public class ResidentService {
 
     private ResidentRepository residentRepository;
 
+    public Resident getResident(long userId) {
+        return residentRepository.findByUserId(userId)
+                .orElseThrow(() -> new NullPointerException("Resident not found"));
+    }
+
     public void addResident(Resident resident) {
         residentRepository.save(resident);
     }

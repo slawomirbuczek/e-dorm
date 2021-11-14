@@ -60,16 +60,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.H2_CONSOLE + UNIVERSAL_MATCHER).permitAll()
 
                 .antMatchers(RestEndpoint.LOGIN).permitAll()
-                .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).permitAll()
 
-                .antMatchers(RestEndpoint.ROOM + UNIVERSAL_MATCHER).permitAll()
-                .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).authenticated()
 
-                .antMatchers(RestEndpoint.TOPIC + UNIVERSAL_MATCHER).permitAll()
-                .antMatchers(RestEndpoint.POST + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.ROOM + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).authenticated()
 
-                .antMatchers(RestEndpoint.RENTABLE_ITEM + UNIVERSAL_MATCHER).permitAll()
-                .antMatchers(RestEndpoint.RENT_HISTORY + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.POST + UNIVERSAL_MATCHER).authenticated()
+
+                .antMatchers(RestEndpoint.RENTABLE_ITEM + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.RENT_HISTORY + UNIVERSAL_MATCHER).authenticated()
 
                 .anyRequest().authenticated()
 

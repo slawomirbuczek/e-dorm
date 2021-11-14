@@ -1,5 +1,6 @@
 package com.edorm.entities.forum;
 
+import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import lombok.*;
 import org.apache.commons.lang3.builder.*;
@@ -26,9 +27,6 @@ public class Post {
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
-    @Column(name = "update_date")
-    private LocalDateTime updateDate;
-
     @Column(name = "edited")
     private Boolean edited;
 
@@ -38,16 +36,23 @@ public class Post {
     @OneToOne
     private User user;
 
+    @OneToOne
+    private Image image;
+
+    @OneToOne
+    private Post topic;
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
                 .append("content", content)
                 .append("createDate", createDate)
-                .append("updateDate", updateDate)
                 .append("edited", edited)
                 .append("deleted", deleted)
                 .append("user", user)
+                .append("forumImage", image)
+                .append("topic", topic)
                 .toString();
     }
 
@@ -63,10 +68,11 @@ public class Post {
                 .append(id, post.id)
                 .append(content, post.content)
                 .append(createDate, post.createDate)
-                .append(updateDate, post.updateDate)
                 .append(edited, post.edited)
                 .append(deleted, post.deleted)
                 .append(user, post.user)
+                .append(image, post.image)
+                .append(topic, post.topic)
                 .isEquals();
     }
 
@@ -76,10 +82,11 @@ public class Post {
                 .append(id)
                 .append(content)
                 .append(createDate)
-                .append(updateDate)
                 .append(edited)
                 .append(deleted)
                 .append(user)
+                .append(image)
+                .append(topic)
                 .toHashCode();
     }
 }
