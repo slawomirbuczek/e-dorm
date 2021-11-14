@@ -53,11 +53,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
 
-                .antMatchers(RestEndpoint.SWAGGER_UI).permitAll()
-                .antMatchers(RestEndpoint.SWAGGER_DOCUMENTATION).permitAll()
-                .antMatchers(RestEndpoint.WEB_JARS + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.SWAGGER_UI + UNIVERSAL_MATCHER).permitAll()
+                .antMatchers(RestEndpoint.SWAGGER_DOCUMENTATION + UNIVERSAL_MATCHER).permitAll()
                 .antMatchers(RestEndpoint.SWAGGER_RESOURCES + UNIVERSAL_MATCHER).permitAll()
-                .antMatchers(RestEndpoint.H2_CONSOLE + UNIVERSAL_MATCHER).permitAll()
 
                 .antMatchers(RestEndpoint.LOGIN).permitAll()
 
