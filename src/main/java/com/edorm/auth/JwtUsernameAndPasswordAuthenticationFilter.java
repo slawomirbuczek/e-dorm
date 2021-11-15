@@ -5,8 +5,7 @@ import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.users.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.*;
@@ -59,7 +58,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                            FilterChain chain, Authentication auth) {
+                                            FilterChain chain, Authentication auth) throws IOException {
         long now = System.currentTimeMillis();
 
         String token = Jwts.builder()
@@ -71,11 +70,11 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .signWith(jwtSecret)
                 .compact();
 
-        response.addHeader(HttpHeaders.AUTHORIZATION, JWT_TOKEN_PREFIX + token);
+        /*response.addHeader(HttpHeaders.AUTHORIZATION, JWT_TOKEN_PREFIX + token);*/
 
-        /*response.setContentType(MediaType.TEXT_PLAIN_VALUE);
-        response.getWriter().write(BEARER_PREFIX + token);
-        response.getWriter().flush();*/
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        response.getWriter().write(JWT_TOKEN_PREFIX + token);
+        response.getWriter().flush();
     }
 
 }
