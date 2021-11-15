@@ -1,5 +1,6 @@
 package com.edorm.entities.users;
 
+import com.edorm.entities.images.Image;
 import com.edorm.enums.Role;
 import lombok.*;
 import org.apache.commons.lang3.builder.*;
@@ -34,6 +35,9 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Image photo;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,6 +75,7 @@ public class User implements UserDetails {
                 .append("password", password)
                 .append("email", email)
                 .append("role", role)
+                .append("photo", photo)
                 .toString();
     }
 
@@ -87,6 +92,7 @@ public class User implements UserDetails {
                 .append(password, user.password)
                 .append(email, user.email)
                 .append(role, user.role)
+                .append(photo, user.photo)
                 .isEquals();
     }
 
@@ -97,6 +103,7 @@ public class User implements UserDetails {
                 .append(password)
                 .append(email)
                 .append(role)
+                .append(photo)
                 .toHashCode();
     }
 

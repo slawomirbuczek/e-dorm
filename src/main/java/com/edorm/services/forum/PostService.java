@@ -98,7 +98,12 @@ public class PostService {
     private PostResponse mapPostToResponse(Post post) {
         Resident resident = residentService.getResident(post.getUser().getId());
         String fullName = resident.getFirstName() + " " + resident.getLastName();
-        byte[] image = Objects.nonNull(post.getImage()) ? post.getImage().getContent() : null;
+        byte[] image = Objects.nonNull(post.getImage())
+                ? post.getImage().getContent()
+                : null;
+        byte[] photo = Objects.nonNull(post.getUser().getPhoto())
+                ? post.getUser().getPhoto().getContent()
+                : null;
 
         PostResponse response = new PostResponse();
         response.setId(post.getId());
@@ -107,6 +112,7 @@ public class PostService {
         response.setDate(post.getCreateDate());
         response.setContent(post.getContent());
         response.setImage(image);
+        response.setPhoto(photo);
         return response;
     }
 

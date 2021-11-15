@@ -1,15 +1,18 @@
 package com.edorm.services.users;
 
 import com.edorm.dtos.users.UserDto;
+import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
 import com.edorm.exceptions.users.*;
 import com.edorm.models.users.RequestChangePassword;
 import com.edorm.repositories.users.UserRepository;
+import com.edorm.services.images.ImageService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ModelMapper mapper;
     private final PasswordEncoder encoder;
+    private final ImageService imageService;
 
     public UserDto getUserDto(long id) {
         return mapper.map(getUser(id), UserDto.class);
@@ -54,6 +58,13 @@ public class UserService {
         } else {
             throw new WrongPasswordException();
         }
+    }
+
+    public void addPhoto(MultipartFile photo, long userId) {
+        Image image = imageService.addImage(photo);
+        User user = getUser(userId);
+        user.setPhoto(image);
+        userRepository.save(user);
     }
 
     private String encodePassword(String password) {

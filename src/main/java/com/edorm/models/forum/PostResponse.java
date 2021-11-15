@@ -23,4 +23,6 @@ public class PostResponse {
 
     private byte[] image;
 
+    private byte[] photo;
+
 }
