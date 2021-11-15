@@ -2,6 +2,7 @@ package com.edorm.controllers.users;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.dtos.users.UserDto;
+import com.edorm.models.users.GetUserBasicInfoResponse;
 import com.edorm.models.users.RequestChangePassword;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<UserDto> getUser(Principal principal) {
-        return ResponseEntity.ok(userService.getUserDto(Long.parseLong(principal.getName())));
+    public ResponseEntity<GetUserBasicInfoResponse> getUser(Principal principal) {
+        return ResponseEntity.ok(userService.getUserBasicInfo(Long.parseLong(principal.getName())));
     }
 
     @GetMapping("/{id}")

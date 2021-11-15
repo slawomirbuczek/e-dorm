@@ -5,6 +5,7 @@ import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
 import com.edorm.exceptions.users.*;
+import com.edorm.models.users.GetUserBasicInfoResponse;
 import com.edorm.models.users.RequestChangePassword;
 import com.edorm.repositories.users.UserRepository;
 import com.edorm.services.images.ImageService;
@@ -13,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +32,16 @@ public class UserService {
 
     public User getUser(long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public GetUserBasicInfoResponse getUserBasicInfo(long userId) {
+        User user = getUser(userId);
+        byte[] photo = Objects.nonNull(user.getPhoto()) ? user.getPhoto().getContent() : null;
+
+        GetUserBasicInfoResponse userBasicInfo = new GetUserBasicInfoResponse();
+        userBasicInfo.setFirstName(user.getFirstName());
+        userBasicInfo.setPhoto(photo);
+        return userBasicInfo;
     }
 
     public void changeRole(long id, Role role) {

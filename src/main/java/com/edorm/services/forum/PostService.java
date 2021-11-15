@@ -2,12 +2,10 @@ package com.edorm.services.forum;
 
 import com.edorm.entities.forum.Post;
 import com.edorm.entities.images.Image;
-import com.edorm.entities.users.Resident;
 import com.edorm.entities.users.User;
 import com.edorm.models.forum.*;
 import com.edorm.repositories.forum.PostRepository;
 import com.edorm.services.images.ImageService;
-import com.edorm.services.users.ResidentService;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +23,6 @@ public class PostService {
     private final PostRepository postRepository;
     private final ImageService imageService;
     private final UserService userService;
-    private final ResidentService residentService;
 
     public void addPost(AddPostRequest request, Long topicId, long userId) {
         Image image = saveImage(request.getImage());
@@ -96,8 +93,7 @@ public class PostService {
     }
 
     private PostResponse mapPostToResponse(Post post) {
-        Resident resident = residentService.getResident(post.getUser().getId());
-        String fullName = resident.getFirstName() + " " + resident.getLastName();
+        String fullName = post.getUser().getFirstName() + " " + post.getUser().getLastName();
         byte[] image = Objects.nonNull(post.getImage())
                 ? post.getImage().getContent()
                 : null;

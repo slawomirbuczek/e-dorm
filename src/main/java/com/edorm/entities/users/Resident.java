@@ -20,12 +20,6 @@ public class Resident {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
@@ -45,8 +39,6 @@ public class Resident {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("id", id)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
                 .append("phoneNumber", phoneNumber)
                 .append("birthday", birthday)
                 .append("user", user)
@@ -65,8 +57,6 @@ public class Resident {
 
         return new EqualsBuilder()
                 .append(id, resident.id)
-                .append(firstName, resident.firstName)
-                .append(lastName, resident.lastName)
                 .append(phoneNumber, resident.phoneNumber)
                 .append(birthday, resident.birthday)
                 .append(user, resident.user)
@@ -79,8 +69,6 @@ public class Resident {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
-                .append(firstName)
-                .append(lastName)
                 .append(phoneNumber)
                 .append(birthday)
                 .append(user)

@@ -58,8 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.SWAGGER_RESOURCES + UNIVERSAL_MATCHER).permitAll()
 
                 .antMatchers(RestEndpoint.LOGIN).permitAll()
-
-                .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).permitAll()
 
                 .antMatchers(RestEndpoint.ROOM + UNIVERSAL_MATCHER).authenticated()
                 .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).authenticated()

@@ -14,11 +14,11 @@ import java.util.Collection;
 import static java.util.Collections.singletonList;
 
 @Entity
-@Table(name = "APP_USER")
 @Getter
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Table(name = "APP_USER")
 public class User implements UserDetails {
 
     @Id
@@ -35,6 +35,12 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image photo;
@@ -75,6 +81,8 @@ public class User implements UserDetails {
                 .append("password", password)
                 .append("email", email)
                 .append("role", role)
+                .append("firstName", firstName)
+                .append("lastName", lastName)
                 .append("photo", photo)
                 .toString();
     }
@@ -92,6 +100,8 @@ public class User implements UserDetails {
                 .append(password, user.password)
                 .append(email, user.email)
                 .append(role, user.role)
+                .append(firstName, user.firstName)
+                .append(lastName, user.lastName)
                 .append(photo, user.photo)
                 .isEquals();
     }
@@ -103,6 +113,8 @@ public class User implements UserDetails {
                 .append(password)
                 .append(email)
                 .append(role)
+                .append(firstName)
+                .append(lastName)
                 .append(photo)
                 .toHashCode();
     }
