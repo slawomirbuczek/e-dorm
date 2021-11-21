@@ -13,6 +13,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByTopicIsNullOrderByCreateDateDesc();
 
-    List<Post> findAllByTopicOrderByCreateDateDesc(Post post);
+    List<Post> findAllByTopicOrderByCreateDateAsc(Post post);
 
 }
