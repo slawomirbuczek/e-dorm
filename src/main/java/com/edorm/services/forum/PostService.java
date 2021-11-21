@@ -44,10 +44,10 @@ public class PostService {
     public List<GetPostResponse> getPosts() {
         List<GetPostResponse> posts = new ArrayList<>();
 
-        List<Post> topics = postRepository.findAllByTopicIsNull();
+        List<Post> topics = postRepository.findAllByTopicIsNullOrderByCreateDateDesc();
 
         topics.forEach(topic -> {
-            List<PostResponse> responses = postRepository.findAllByTopic(topic).stream()
+            List<PostResponse> responses = postRepository.findAllByTopicOrderByCreateDateDesc(topic).stream()
                     .map(this::mapPostToResponse)
                     .collect(Collectors.toList());
 

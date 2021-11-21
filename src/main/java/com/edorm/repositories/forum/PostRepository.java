@@ -11,8 +11,8 @@ import java.util.List;
 @Transactional
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    List<Post> findAllByTopicIsNull();
+    List<Post> findAllByTopicIsNullOrderByCreateDateDesc();
 
-    List<Post> findAllByTopic(Post post);
+    List<Post> findAllByTopicOrderByCreateDateDesc(Post post);
 
 }
