@@ -21,6 +21,7 @@ public class Post {
     @Column(name = "id")
     private Long id;
 
+    @Lob
     @Column(name = "content")
     private String content;
 
