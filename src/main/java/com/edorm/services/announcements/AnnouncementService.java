@@ -8,6 +8,7 @@ import com.edorm.repositories.announcements.AnnouncementRepository;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +33,7 @@ public class AnnouncementService {
         announcementRepository.save(announcement);
     }
 
+    @Transactional
     public List<GetAnnouncementsResponse> getAnnouncements() {
         return announcementRepository.findAllByDisabledFalseOrderByDateAsc().stream()
                 .map(this::mapAnnouncementToResponse)
