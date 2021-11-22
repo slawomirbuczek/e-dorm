@@ -57,6 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.SWAGGER_DOCUMENTATION + UNIVERSAL_MATCHER).permitAll()
                 .antMatchers(RestEndpoint.SWAGGER_RESOURCES + UNIVERSAL_MATCHER).permitAll()
 
+                .antMatchers(RestEndpoint.PING).permitAll()
+
                 .antMatchers(RestEndpoint.LOGIN).permitAll()
                 .antMatchers(RestEndpoint.REGISTRATION + UNIVERSAL_MATCHER).permitAll()
 
@@ -67,6 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(RestEndpoint.RENTABLE_ITEM + UNIVERSAL_MATCHER).authenticated()
                 .antMatchers(RestEndpoint.RENT_HISTORY + UNIVERSAL_MATCHER).authenticated()
+
+                .antMatchers(RestEndpoint.MESSAGE + UNIVERSAL_MATCHER).authenticated()
 
                 .anyRequest().authenticated()
 

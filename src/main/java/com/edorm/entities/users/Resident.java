@@ -26,7 +26,7 @@ public class Resident {
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @OneToOne(optional = false)
+    @OneToOne
     private User user;
 
     @OneToOne

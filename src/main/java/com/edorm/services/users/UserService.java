@@ -5,8 +5,7 @@ import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
 import com.edorm.exceptions.users.*;
-import com.edorm.models.users.GetUserBasicInfoResponse;
-import com.edorm.models.users.RequestChangePassword;
+import com.edorm.models.users.*;
 import com.edorm.repositories.users.UserRepository;
 import com.edorm.services.images.ImageService;
 import lombok.AllArgsConstructor;
@@ -15,7 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -34,6 +35,11 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    public List<GetUserResponse> getUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(this::mapUserToGetUserResponse).collect(Collectors.toList());
+    }
+
     public GetUserBasicInfoResponse getUserBasicInfo(long userId) {
         User user = getUser(userId);
         byte[] photo = Objects.nonNull(user.getPhoto()) ? user.getPhoto().getContent() : null;
@@ -50,14 +56,14 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User addUser(User user) {
+    public void addUser(User user) {
         if (emailAlreadyTaken(user.getEmail())) {
             throw new EmailAlreadyTakenException(user.getEmail());
         }
 
         String encodedPassword = encodePassword(user.getPassword());
         user.setPassword(encodedPassword);
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     public void changePassword(Long userId, RequestChangePassword request) {
@@ -86,6 +92,17 @@ public class UserService {
 
     private boolean emailAlreadyTaken(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public GetUserResponse mapUserToGetUserResponse(User user) {
+        byte[] photo = Objects.nonNull(user.getPhoto()) ? user.getPhoto().getContent() : null;
+
+        GetUserResponse getUserResponse = new GetUserResponse();
+        getUserResponse.setId(user.getId());
+        getUserResponse.setFirstName(user.getFirstName());
+        getUserResponse.setLastName(user.getLastName());
+        getUserResponse.setPhoto(photo);
+        return getUserResponse;
     }
 
 }

@@ -1,9 +1,7 @@
 package com.edorm.controllers.users;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.dtos.users.UserDto;
-import com.edorm.models.users.GetUserBasicInfoResponse;
-import com.edorm.models.users.RequestChangePassword;
+import com.edorm.models.users.*;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping(RestEndpoint.USER)
@@ -20,14 +19,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping
+    @GetMapping("/self")
     public ResponseEntity<GetUserBasicInfoResponse> getUser(Principal principal) {
         return ResponseEntity.ok(userService.getUserBasicInfo(Long.parseLong(principal.getName())));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserDto(id));
+    @GetMapping
+    public ResponseEntity<List<GetUserResponse>> getUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
     @PutMapping("/password")

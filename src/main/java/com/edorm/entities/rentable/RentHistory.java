@@ -26,10 +26,10 @@ public class RentHistory {
     @Column(name = "return_time")
     private LocalDateTime returnTime;
 
-    @OneToOne(optional = false)
+    @OneToOne
     private RentableItem rentableItem;
 
-    @OneToOne(optional = false)
+    @OneToOne
     private User user;
 
     @Override
