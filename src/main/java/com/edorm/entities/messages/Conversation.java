@@ -1,6 +1,5 @@
 package com.edorm.entities.messages;
 
-import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import lombok.*;
 
@@ -12,29 +11,22 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "MESSAGE")
-public class Message {
+@Table(name = "CONVERSATION")
+public class Conversation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
-
-    @Lob
-    @Column(name = "content")
-    private String content;
+    @Column(name = "update_date")
+    private LocalDateTime updateDate;
 
     @OneToOne
-    private Image image;
+    private User userOne;
 
     @OneToOne
-    private User sender;
-
-    @OneToOne
-    private Conversation conversation;
+    private User userTwo;
 
 
 }

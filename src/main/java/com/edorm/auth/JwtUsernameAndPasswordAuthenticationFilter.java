@@ -5,7 +5,8 @@ import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.users.UserCredentials;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
-import org.springframework.http.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.*;
@@ -16,7 +17,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -26,15 +26,12 @@ import static com.edorm.config.JwtProperties.JWT_TOKEN_PREFIX;
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 
-
     private final AuthenticationManager authManager;
     private final JwtProperties jwtProperties;
-    private final Key jwtSecret;
 
-    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtProperties jwtProperties, Key jwtSecret) {
+    public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authManager, JwtProperties jwtProperties) {
         this.authManager = authManager;
         this.jwtProperties = jwtProperties;
-        this.jwtSecret = jwtSecret;
 
         this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(RestEndpoint.LOGIN, HttpMethod.POST.name()));
     }
@@ -67,7 +64,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .setIssuedAt(new Date(now))
                 .setExpiration(new Date(now + (jwtProperties.getExpirationTime())))
-                .signWith(jwtSecret)
+                .signWith(jwtProperties.getSecret())
                 .compact();
 
         /*response.addHeader(HttpHeaders.AUTHORIZATION, JWT_TOKEN_PREFIX + token);*/

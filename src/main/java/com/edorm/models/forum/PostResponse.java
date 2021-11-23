@@ -14,7 +14,7 @@ public class PostResponse {
 
     private String fullName;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
     private boolean edited;

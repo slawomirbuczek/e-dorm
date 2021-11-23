@@ -12,6 +12,10 @@ import javax.persistence.*;
 @Table(name = "IMAGE")
 public class Image {
 
+    @Lob
+    @Column(name = "content", nullable = false)
+    byte[] content;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,10 +23,6 @@ public class Image {
 
     @Column(name = "name")
     private String name;
-
-    @Lob
-    @Column(name = "content", nullable = false)
-    byte[] content;
 
 
 }

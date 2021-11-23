@@ -1,5 +1,6 @@
 package com.edorm.auth;
 
+import com.edorm.config.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.Key;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +25,7 @@ import static com.edorm.config.JwtProperties.JWT_TOKEN_PREFIX;
 @AllArgsConstructor
 public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final Key jwtSecret;
+    private final JwtProperties jwtProperties;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain)
@@ -42,7 +42,7 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(jwtSecret)
+                    .setSigningKey(jwtProperties.getSecret())
                     .build()
                     .parseClaimsJws(token)
                     .getBody();

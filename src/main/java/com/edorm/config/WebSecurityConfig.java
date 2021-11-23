@@ -2,8 +2,6 @@ package com.edorm.config;
 
 import com.edorm.auth.*;
 import com.edorm.controllers.RestEndpoint;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.modelmapper.ModelMapper;
@@ -19,9 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.security.Key;
-import java.util.UUID;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
@@ -48,8 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint())
 
                 .and()
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtProperties, jwtSecret()))
-                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtSecret()), UsernamePasswordAuthenticationFilter.class)
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtProperties))
+                .addFilterAfter(new JwtTokenAuthenticationFilter(jwtProperties), UsernamePasswordAuthenticationFilter.class)
 
                 .authorizeRequests()
 
@@ -71,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.RENT_HISTORY + UNIVERSAL_MATCHER).authenticated()
 
                 .antMatchers(RestEndpoint.MESSAGE + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.CONVERSATION + UNIVERSAL_MATCHER).authenticated()
 
                 .antMatchers(RestEndpoint.ANNOUNCEMENT + UNIVERSAL_MATCHER).authenticated()
 
@@ -83,13 +79,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public Key jwtSecret() {
-        String secret = UUID.randomUUID().toString() + UUID.randomUUID();
-        byte[] keyBytes = Decoders.BASE64.decode(secret.replaceAll("-", "x"));
-        return Keys.hmacShaKeyFor(keyBytes);
     }
 
     @Bean

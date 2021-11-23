@@ -19,18 +19,18 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/{userId}")
+    @PostMapping("/{conversationId}")
     @ResponseStatus(HttpStatus.OK)
     public void addMessage(@RequestPart(required = false) MultipartFile image,
                            @RequestPart String content,
-                           @PathVariable Long userId,
+                           @PathVariable long conversationId,
                            Principal principal) {
-        messageService.addMessage(image, content, userId, Long.parseLong(principal.getName()));
+        messageService.addMessage(image, content, conversationId, Long.parseLong(principal.getName()));
     }
 
-    @GetMapping
-    public ResponseEntity<List<GetMessageResponse>> getMessages(Principal principal) {
-        return ResponseEntity.ok(messageService.getMessages(Long.parseLong(principal.getName())));
+    @GetMapping("/{conversationId}")
+    public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId) {
+        return ResponseEntity.ok(messageService.getMessages(conversationId));
     }
 
 }
