@@ -42,20 +42,21 @@ public class MessageService {
     }
 
     @Transactional
-    public List<GetMessageResponse> getMessages(long conversationId) {
+    public List<GetMessageResponse> getMessages(long conversationId, long userId) {
         final Conversation conversation = conversationService.getConversation(conversationId);
 
         return messageRepository.findTop20ByConversationOrderByCreateDateAsc(conversation).stream()
-                .map(this::mapMessageToMessageResponse)
+                .map(message -> mapMessageToMessageResponse(message, userId))
                 .collect(Collectors.toList());
     }
 
-    private GetMessageResponse mapMessageToMessageResponse(Message message) {
+    private GetMessageResponse mapMessageToMessageResponse(Message message, long userId) {
         final byte[] image = Objects.nonNull(message.getImage()) ? message.getImage().getContent() : null;
 
         GetMessageResponse getMessageResponse = new GetMessageResponse();
         getMessageResponse.setCreateDate(message.getCreateDate());
         getMessageResponse.setContent(message.getContent());
+        getMessageResponse.setSentByUser(message.getSender().getId() == userId);
         getMessageResponse.setImage(image);
         return getMessageResponse;
     }

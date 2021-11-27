@@ -13,6 +13,8 @@ public class GetMessageResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
 
+    private boolean sentByUser;
+
     private String content;
 
     private byte[] image;

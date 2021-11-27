@@ -29,8 +29,8 @@ public class MessageController {
     }
 
     @GetMapping("/{conversationId}")
-    public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId) {
-        return ResponseEntity.ok(messageService.getMessages(conversationId));
+    public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId, Principal principal) {
+        return ResponseEntity.ok(messageService.getMessages(conversationId, Long.parseLong(principal.getName())));
     }
 
 }
