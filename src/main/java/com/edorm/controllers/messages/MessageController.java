@@ -19,13 +19,20 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/{conversationId}")
+    @PostMapping("/content/{conversationId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addMessage(@RequestPart(required = false) MultipartFile image,
-                           @RequestPart String content,
-                           @PathVariable long conversationId,
-                           Principal principal) {
-        messageService.addMessage(image, content, conversationId, Long.parseLong(principal.getName()));
+    public void addContentMessage(@RequestBody String content,
+                                  @PathVariable long conversationId,
+                                  Principal principal) {
+        messageService.addContentMessage(content, conversationId, Long.parseLong(principal.getName()));
+    }
+
+    @PostMapping("/image/{conversationId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void addImageMessage(@RequestPart MultipartFile image,
+                                @PathVariable long conversationId,
+                                Principal principal) {
+        messageService.addImageMessage(image, conversationId, Long.parseLong(principal.getName()));
     }
 
     @GetMapping("/{conversationId}")

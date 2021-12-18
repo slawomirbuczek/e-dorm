@@ -27,19 +27,33 @@ public class MessageService {
     private final UserService userService;
     private final ConversationService conversationService;
 
-    public void addMessage(MultipartFile image, String content, long conversationId, long userId) {
-        final Image messageImage = imageService.addImage(image);
+    public void addContentMessage(String content, long conversationId, long userId) {
         final User sender = userService.getUser(userId);
         final Conversation conversation = conversationService.getConversation(conversationId);
 
         Message message = new Message();
         message.setCreateDate(LocalDateTime.now());
         message.setContent(content);
+        message.setImage(null);
+        message.setSender(sender);
+        message.setConversation(conversation);
+        messageRepository.save(message);
+    }
+
+    public void addImageMessage(MultipartFile image, long conversationId, long userId) {
+        final Image messageImage = imageService.addImage(image);
+        final User sender = userService.getUser(userId);
+        final Conversation conversation = conversationService.getConversation(conversationId);
+
+        Message message = new Message();
+        message.setCreateDate(LocalDateTime.now());
+        message.setContent(null);
         message.setImage(messageImage);
         message.setSender(sender);
         message.setConversation(conversation);
         messageRepository.save(message);
     }
+
 
     @Transactional
     public List<GetMessageResponse> getMessages(long conversationId, long userId) {
