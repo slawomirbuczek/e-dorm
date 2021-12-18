@@ -59,7 +59,7 @@ public class MessageService {
     public List<GetMessageResponse> getMessages(long conversationId, long userId) {
         final Conversation conversation = conversationService.getConversation(conversationId);
 
-        return messageRepository.findTop20ByConversationOrderByCreateDateAsc(conversation).stream()
+        return messageRepository.findTop100ByConversationOrderByCreateDateAsc(conversation).stream()
                 .map(message -> mapMessageToMessageResponse(message, userId))
                 .collect(Collectors.toList());
     }
