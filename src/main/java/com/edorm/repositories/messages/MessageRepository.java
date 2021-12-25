@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-    List<Message> findTop100ByConversationOrderByCreateDateAsc(Conversation conversation);
+    List<Message> findTop20ByConversationOrderByCreateDateDesc(Conversation conversation);
 
 
 }

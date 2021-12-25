@@ -33,7 +33,7 @@ public class Message {
     @OneToOne
     private User sender;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Conversation conversation;
 
 

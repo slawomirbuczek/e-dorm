@@ -1,6 +1,7 @@
 package com.edorm.controllers.messages;
 
 import com.edorm.controllers.RestEndpoint;
+import com.edorm.models.messages.AddContentMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.services.messages.MessageService;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,10 @@ public class MessageController {
 
     @PostMapping("/content/{conversationId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addContentMessage(@RequestBody String content,
+    public void addContentMessage(@RequestBody AddContentMessageRequest request,
                                   @PathVariable long conversationId,
                                   Principal principal) {
-        messageService.addContentMessage(content, conversationId, Long.parseLong(principal.getName()));
+        messageService.addContentMessage(request, conversationId, Long.parseLong(principal.getName()));
     }
 
     @PostMapping("/image/{conversationId}")
