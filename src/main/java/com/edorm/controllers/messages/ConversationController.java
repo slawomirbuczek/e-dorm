@@ -3,6 +3,7 @@ package com.edorm.controllers.messages;
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.messages.GetConversationResponse;
 import com.edorm.services.messages.ConversationService;
+import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class ConversationController {
 
     @GetMapping
     public ResponseEntity<List<GetConversationResponse>> getConversations(Principal principal) {
-        return ResponseEntity.ok(conversationService.getConversations(Long.parseLong(principal.getName())));
+        return ResponseEntity.ok(conversationService.getConversations(PrincipalUtil.getUserId(principal)));
     }
 
     @PostMapping("/{recipientId}")
     @ResponseStatus(HttpStatus.OK)
     public void addConversation(@PathVariable long recipientId, Principal principal) {
-        conversationService.addConversation(Long.parseLong(principal.getName()), recipientId);
+        conversationService.addConversation(PrincipalUtil.getUserId(principal), recipientId);
     }
 
 

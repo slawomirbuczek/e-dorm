@@ -70,6 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(RestEndpoint.ANNOUNCEMENT + UNIVERSAL_MATCHER).authenticated()
 
+                .antMatchers(RestEndpoint.TICKET + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.TICKET_MESSAGE + UNIVERSAL_MATCHER).authenticated()
+
                 .anyRequest().authenticated()
 
                 .and()

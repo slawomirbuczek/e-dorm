@@ -4,6 +4,7 @@ import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.announcements.AddAnnouncementRequest;
 import com.edorm.models.announcements.GetAnnouncementsResponse;
 import com.edorm.services.announcements.AnnouncementService;
+import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AnnouncementController {
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public void addAnnouncement(@RequestBody AddAnnouncementRequest request, Principal principal) {
-        announcementService.addAnnouncement(request, Long.parseLong(principal.getName()));
+        announcementService.addAnnouncement(request, PrincipalUtil.getUserId(principal));
     }
 
 

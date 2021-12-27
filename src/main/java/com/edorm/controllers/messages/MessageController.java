@@ -4,6 +4,7 @@ import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.messages.AddContentMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.services.messages.MessageService;
+import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class MessageController {
     public void addContentMessage(@RequestBody AddContentMessageRequest request,
                                   @PathVariable long conversationId,
                                   Principal principal) {
-        messageService.addContentMessage(request, conversationId, Long.parseLong(principal.getName()));
+        messageService.addContentMessage(request, conversationId, PrincipalUtil.getUserId(principal));
     }
 
     @PostMapping("/image/{conversationId}")
@@ -33,12 +34,12 @@ public class MessageController {
     public void addImageMessage(@RequestPart MultipartFile image,
                                 @PathVariable long conversationId,
                                 Principal principal) {
-        messageService.addImageMessage(image, conversationId, Long.parseLong(principal.getName()));
+        messageService.addImageMessage(image, conversationId, PrincipalUtil.getUserId(principal));
     }
 
     @GetMapping("/{conversationId}")
     public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId, Principal principal) {
-        return ResponseEntity.ok(messageService.getMessages(conversationId, Long.parseLong(principal.getName())));
+        return ResponseEntity.ok(messageService.getMessages(conversationId, PrincipalUtil.getUserId(principal)));
     }
 
 }

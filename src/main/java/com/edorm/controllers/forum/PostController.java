@@ -4,6 +4,7 @@ import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.forum.AddPostRequest;
 import com.edorm.models.forum.GetPostResponse;
 import com.edorm.services.forum.PostService;
+import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class PostController {
     public void addNewPost(@RequestPart(required = false) MultipartFile image,
                            @RequestPart String content,
                            Principal principal) {
-        postService.addPost(new AddPostRequest(content, image), null, Long.parseLong(principal.getName()));
+        postService.addPost(new AddPostRequest(content, image), null, PrincipalUtil.getUserId(principal));
     }
 
     @PostMapping("/{postId}")
@@ -39,7 +40,7 @@ public class PostController {
                         @RequestPart String content,
                         @PathVariable Long postId,
                         Principal principal) {
-        postService.addPost(new AddPostRequest(content, image), postId, Long.parseLong(principal.getName()));
+        postService.addPost(new AddPostRequest(content, image), postId, PrincipalUtil.getUserId(principal));
     }
 
     @PutMapping("/{postId}")

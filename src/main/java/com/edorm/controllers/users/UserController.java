@@ -3,6 +3,7 @@ package com.edorm.controllers.users;
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.users.*;
 import com.edorm.services.users.UserService;
+import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
 
     @GetMapping("/self")
     public ResponseEntity<GetUserBasicInfoResponse> getUser(Principal principal) {
-        return ResponseEntity.ok(userService.getUserBasicInfo(Long.parseLong(principal.getName())));
+        return ResponseEntity.ok(userService.getUserBasicInfo(PrincipalUtil.getUserId(principal)));
     }
 
     @GetMapping
@@ -32,13 +33,13 @@ public class UserController {
     @PutMapping("/password")
     @ResponseStatus(HttpStatus.OK)
     public void changePassword(@RequestBody RequestChangePassword request, Principal principal) {
-        userService.changePassword(Long.parseLong(principal.getName()), request);
+        userService.changePassword(PrincipalUtil.getUserId(principal), request);
     }
 
     @PutMapping("/photo")
     @ResponseStatus(HttpStatus.OK)
     public void updatePhoto(@RequestPart MultipartFile photo, Principal principal) {
-        userService.addPhoto(photo, Long.parseLong(principal.getName()));
+        userService.addPhoto(photo, PrincipalUtil.getUserId(principal));
     }
 
 }

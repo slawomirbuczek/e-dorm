@@ -18,6 +18,8 @@ public class RestEndpoint {
     public static final String MESSAGE = "/messages";
     public static final String ANNOUNCEMENT = "/announcements";
     public static final String CONVERSATION = "/conversations";
+    public static final String TICKET = "/tickets";
+    public static final String TICKET_MESSAGE = "/ticket-messages";
 
 
 }
