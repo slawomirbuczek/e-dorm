@@ -36,7 +36,7 @@ public class TicketService {
     public List<GetTicketResponse> getTickets(long userId) {
         final User user = userService.getUser(userId);
 
-        return ticketRepository.findAllByUserOrderByCreateDateAsc(user).stream()
+        return ticketRepository.findAllByUserOrderByCreateDateDesc(user).stream()
                 .map(this::mapTicketToResponse)
                 .collect(Collectors.toList());
     }
