@@ -2,8 +2,7 @@ package com.edorm.services.tickets;
 
 import com.edorm.entities.tickets.Ticket;
 import com.edorm.entities.users.User;
-import com.edorm.models.tickets.AddTicketRequest;
-import com.edorm.models.tickets.GetTicketResponse;
+import com.edorm.models.tickets.*;
 import com.edorm.repositories.tickets.TicketRepository;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final UserService userService;
 
-    public void addTicket(AddTicketRequest request, long userId) {
+    public AddTicketResponse addTicket(AddTicketRequest request, long userId) {
         final User user = userService.getUser(userId);
 
         Ticket ticket = new Ticket();
@@ -30,7 +29,9 @@ public class TicketService {
         ticket.setSubject(request.getSubject());
         ticket.setOpen(true);
         ticket.setUser(user);
-        ticketRepository.save(ticket);
+        ticket = ticketRepository.save(ticket);
+
+        return new AddTicketResponse(ticket.getId());
     }
 
     public List<GetTicketResponse> getTickets(long userId) {

@@ -2,6 +2,7 @@ package com.edorm.services.messages;
 
 import com.edorm.entities.messages.Conversation;
 import com.edorm.entities.users.User;
+import com.edorm.models.messages.AddConversationResponse;
 import com.edorm.models.messages.GetConversationResponse;
 import com.edorm.repositories.messages.ConversationRepository;
 import com.edorm.services.users.UserService;
@@ -20,7 +21,7 @@ public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final UserService userService;
 
-    public void addConversation(long userOneId, long userTwoId) {
+    public AddConversationResponse addConversation(long userOneId, long userTwoId) {
         User userOne = userService.getUser(userOneId);
         User userTwo = userService.getUser(userTwoId);
 
@@ -28,7 +29,9 @@ public class ConversationService {
         conversation.setUpdateDate(LocalDateTime.now());
         conversation.setUserOne(userOne);
         conversation.setUserTwo(userTwo);
-        conversationRepository.save(conversation);
+        conversation = conversationRepository.save(conversation);
+
+        return new AddConversationResponse(conversation.getId());
     }
 
     public Conversation getConversation(long conversationId) {
