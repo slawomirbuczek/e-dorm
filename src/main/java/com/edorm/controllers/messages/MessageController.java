@@ -1,7 +1,7 @@
 package com.edorm.controllers.messages;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.models.messages.AddContentMessageRequest;
+import com.edorm.models.messages.AddMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.services.messages.MessageService;
 import com.edorm.utils.PrincipalUtil;
@@ -21,20 +21,20 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/content/{conversationId}")
+    @PostMapping("/{conversationId}/content" )
     @ResponseStatus(HttpStatus.OK)
-    public void addContentMessage(@RequestBody AddContentMessageRequest request,
+    public void addContentMessage(@RequestBody AddMessageRequest request,
                                   @PathVariable long conversationId,
                                   Principal principal) {
-        messageService.addContentMessage(request, conversationId, PrincipalUtil.getUserId(principal));
+        messageService.addMessage(request, null, conversationId, PrincipalUtil.getUserId(principal));
     }
 
-    @PostMapping("/image/{conversationId}")
+    @PostMapping("/{conversationId}/image")
     @ResponseStatus(HttpStatus.OK)
     public void addImageMessage(@RequestPart MultipartFile image,
                                 @PathVariable long conversationId,
                                 Principal principal) {
-        messageService.addImageMessage(image, conversationId, PrincipalUtil.getUserId(principal));
+        messageService.addMessage(null, image, conversationId, PrincipalUtil.getUserId(principal));
     }
 
     @GetMapping("/{conversationId}")

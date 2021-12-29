@@ -4,7 +4,7 @@ import com.edorm.entities.images.Image;
 import com.edorm.entities.messages.Conversation;
 import com.edorm.entities.messages.Message;
 import com.edorm.entities.users.User;
-import com.edorm.models.messages.AddContentMessageRequest;
+import com.edorm.models.messages.AddMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.repositories.messages.MessageRepository;
 import com.edorm.services.images.ImageService;
@@ -27,33 +27,20 @@ public class MessageService {
     private final UserService userService;
     private final ConversationService conversationService;
 
-    public void addContentMessage(AddContentMessageRequest request, long conversationId, long userId) {
+    public void addMessage(AddMessageRequest request, MultipartFile file, long conversationId, long userId) {
         final User sender = userService.getUser(userId);
+        final Image image = imageService.addImage(file);
         final Conversation conversation = conversationService.getConversation(conversationId);
+        final String content = Objects.nonNull(request) ? request.getContent() : null;
 
         Message message = new Message();
+        message.setContent(content);
+        message.setImage(image);
         message.setCreateDate(LocalDateTime.now());
-        message.setContent(request.getContent());
-        message.setImage(null);
         message.setSender(sender);
         message.setConversation(conversation);
         messageRepository.save(message);
     }
-
-    public void addImageMessage(MultipartFile image, long conversationId, long userId) {
-        final Image messageImage = imageService.addImage(image);
-        final User sender = userService.getUser(userId);
-        final Conversation conversation = conversationService.getConversation(conversationId);
-
-        Message message = new Message();
-        message.setCreateDate(LocalDateTime.now());
-        message.setContent(null);
-        message.setImage(messageImage);
-        message.setSender(sender);
-        message.setConversation(conversation);
-        messageRepository.save(message);
-    }
-
 
     @Transactional
     public List<GetMessageResponse> getMessages(long conversationId, long userId) {

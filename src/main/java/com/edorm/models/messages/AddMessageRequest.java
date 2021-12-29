@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddContentMessageRequest {
+public class AddMessageRequest {
 
     private String content;
 

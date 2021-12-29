@@ -25,7 +25,7 @@ public class TicketMessageService {
     private final TicketService ticketService;
     private final ImageService imageService;
 
-    public void addTicketMessageContent(AddTicketMessageRequest request, MultipartFile file, long ticketId, long userId) {
+    public void addTicketMessage(AddTicketMessageRequest request, MultipartFile file, long ticketId, long userId) {
         final Image image = imageService.addImage(file);
         final Ticket ticket = ticketService.getTicket(ticketId);
         final String content = Objects.nonNull(request) ? request.getContent() : null;
