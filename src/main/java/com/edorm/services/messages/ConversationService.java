@@ -4,6 +4,7 @@ import com.edorm.entities.messages.Conversation;
 import com.edorm.entities.users.User;
 import com.edorm.models.messages.AddConversationResponse;
 import com.edorm.models.messages.GetConversationResponse;
+import com.edorm.models.messages.GetNewConversationResponse;
 import com.edorm.repositories.messages.ConversationRepository;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
@@ -53,6 +54,26 @@ public class ConversationService {
                 .collect(Collectors.toList());
     }
 
+    public List<GetNewConversationResponse> getNewConversationResponses(long userId) {
+        List<Long> userTwoIds = getConversationsByUserId(userId).stream()
+                .map(conversation -> {
+                    Long userOneId = conversation.getUserOne().getId();
+                    Long userTwoId = conversation.getUserTwo().getId();
+                    return Objects.equals(userOneId, userId) ? userTwoId : userOneId;
+                })
+                .collect(Collectors.toList());
+        userTwoIds.add(userId);
+
+        List<User> users = userService.getUsersWithIdNotInList(userTwoIds);
+
+        return users.stream().map(this::mapUserToNewConversationResponse).collect(Collectors.toList());
+    }
+
+    public List<Conversation> getConversationsByUserId(long userId) {
+        User user = userService.getUser(userId);
+        return conversationRepository.findAllByUserOneOrUserTwoOrderByUpdateDateAsc(user, user);
+    }
+
     private GetConversationResponse mapConversationToResponse(Conversation conversation, User recipient) {
         String fullName = recipient.getFirstName() + " " + recipient.getLastName();
         byte[] photo = Objects.nonNull(recipient.getPhoto()) ? recipient.getPhoto().getContent() : null;
@@ -64,5 +85,11 @@ public class ConversationService {
         return getConversationResponse;
     }
 
+    private GetNewConversationResponse mapUserToNewConversationResponse(User user) {
+        GetNewConversationResponse response = new GetNewConversationResponse();
+        response.setId(user.getId());
+        response.setName(user.getFirstName() + " " + user.getLastName());
+        return response;
+    }
 
 }

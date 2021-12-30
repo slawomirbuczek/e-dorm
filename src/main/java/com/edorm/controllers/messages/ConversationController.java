@@ -3,6 +3,7 @@ package com.edorm.controllers.messages;
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.messages.AddConversationResponse;
 import com.edorm.models.messages.GetConversationResponse;
+import com.edorm.models.messages.GetNewConversationResponse;
 import com.edorm.services.messages.ConversationService;
 import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
@@ -29,6 +30,13 @@ public class ConversationController {
     public ResponseEntity<AddConversationResponse> addConversation(@PathVariable long recipientId, Principal principal) {
         AddConversationResponse response = conversationService.addConversation(PrincipalUtil.getUserId(principal), recipientId);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<GetNewConversationResponse>> getNewConversations(Principal principal) {
+        return ResponseEntity.ok(
+                conversationService.getNewConversationResponses(PrincipalUtil.getUserId(principal))
+        );
     }
 
 

@@ -40,6 +40,10 @@ public class UserService {
         return users.stream().map(this::mapUserToGetUserResponse).collect(Collectors.toList());
     }
 
+    public List<User> getUsersWithIdNotInList(List<Long> usersId) {
+        return userRepository.findAllByIdNotIn(usersId);
+    }
+
     public GetUserBasicInfoResponse getUserBasicInfo(long userId) {
         User user = getUser(userId);
         byte[] photo = Objects.nonNull(user.getPhoto()) ? user.getPhoto().getContent() : null;
