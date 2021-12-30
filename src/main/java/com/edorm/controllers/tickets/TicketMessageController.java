@@ -31,10 +31,10 @@ public class TicketMessageController {
 
     @PostMapping("/{ticketId}/image")
     @ResponseStatus(HttpStatus.OK)
-    public void addTicketMessageImage(@RequestPart MultipartFile file,
+    public void addTicketMessageImage(@RequestPart MultipartFile image,
                                       @PathVariable long ticketId,
                                       Principal principal) {
-        ticketMessageService.addTicketMessage(null, file, ticketId, PrincipalUtil.getUserId(principal));
+        ticketMessageService.addTicketMessage(null, image, ticketId, PrincipalUtil.getUserId(principal));
     }
 
     @GetMapping("/{ticketId}")
