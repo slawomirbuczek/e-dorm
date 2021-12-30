@@ -22,13 +22,13 @@ public class ConversationService {
     private final ConversationRepository conversationRepository;
     private final UserService userService;
 
-    public AddConversationResponse addConversation(long userOneId, long userTwoId) {
-        User userOne = userService.getUser(userOneId);
+    public AddConversationResponse addConversation(long userId, long userTwoId) {
+        User user = userService.getUser(userId);
         User userTwo = userService.getUser(userTwoId);
 
         Conversation conversation = new Conversation();
         conversation.setUpdateDate(LocalDateTime.now());
-        conversation.setUserOne(userOne);
+        conversation.setUserOne(user);
         conversation.setUserTwo(userTwo);
         conversation = conversationRepository.save(conversation);
 
@@ -46,9 +46,9 @@ public class ConversationService {
         return conversationRepository.findAllByUserOneOrUserTwoOrderByUpdateDateAsc(user, user).stream()
                 .map(conversation ->
                         mapConversationToResponse(
-                                conversation, conversation.getUserOne().equals(user)
-                                        ? conversation.getUserTwo()
-                                        : conversation.getUserOne()
+                                conversation,
+                                Objects.equals(conversation.getUserOne().getId(), user.getId()) ?
+                                        conversation.getUserTwo() : conversation.getUserOne()
                         )
                 )
                 .collect(Collectors.toList());
