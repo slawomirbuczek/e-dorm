@@ -43,6 +43,7 @@ public class PostService {
         post.setCreateDate(LocalDateTime.now());
         post.setEdited(false);
         post.setUser(user);
+        post.setTopic(topic);
 
         post = postRepository.save(post);
 
