@@ -29,8 +29,8 @@ public class TicketMessage {
     @OneToOne
     private Image image;
 
-    @Column(name = "send_by_user", nullable = false)
-    private boolean sendByUser;
+    @Column(name = "sent_by_user", nullable = false)
+    private boolean sentByUser;
 
     @OneToOne
     private Ticket ticket;

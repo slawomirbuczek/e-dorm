@@ -42,7 +42,7 @@ public class TicketMessageService {
             ticketMessage.setContent(content);
             ticketMessage.setCreateDate(LocalDateTime.now());
             ticketMessage.setImage(image);
-            ticketMessage.setSendByUser(true);
+            ticketMessage.setSentByUser(true);
             ticketMessageRepository.save(ticketMessage);
         }
     }
@@ -64,7 +64,7 @@ public class TicketMessageService {
         response.setId(ticketMessage.getId());
         response.setContent(ticketMessage.getContent());
         response.setCreateDate(ticketMessage.getCreateDate());
-        response.setSendByUser(ticketMessage.isSendByUser());
+        response.setSentByUser(ticketMessage.isSentByUser());
         response.setImage(ImageUtil.getImageContent(ticketMessage.getImage()));
         return response;
     }

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddPostRequest {
+public class UpdateTopicRequest {
 
     private String content;
 

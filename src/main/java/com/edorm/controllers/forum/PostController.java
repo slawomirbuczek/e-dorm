@@ -2,7 +2,9 @@ package com.edorm.controllers.forum;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.models.forum.AddPostRequest;
+import com.edorm.models.forum.AddPostResponse;
 import com.edorm.models.forum.GetPostResponse;
+import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.services.forum.PostService;
 import com.edorm.utils.PrincipalUtil;
 import lombok.AllArgsConstructor;
@@ -21,36 +23,50 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping
-    public ResponseEntity<List<GetPostResponse>> getPosts() {
-        return ResponseEntity.ok(postService.getPosts());
+    @GetMapping("/{topicId}")
+    public ResponseEntity<List<GetPostResponse>> getPosts(@PathVariable Long topicId) {
+        return ResponseEntity.ok(
+                postService.getPosts(topicId)
+        );
     }
 
-    @PostMapping
+    @PostMapping("/{topicId}/content")
     @ResponseStatus(HttpStatus.OK)
-    public void addNewPost(@RequestPart(required = false) MultipartFile image,
-                           @RequestPart String content,
-                           Principal principal) {
-        postService.addPost(new AddPostRequest(content, image), null, PrincipalUtil.getUserId(principal));
+    public ResponseEntity<AddPostResponse> addPostContent(@RequestBody AddPostRequest request,
+                                                          @PathVariable Long topicId,
+                                                          Principal principal) {
+        return ResponseEntity.ok(
+                postService.addPost(request, null, topicId, PrincipalUtil.getUserId(principal))
+        );
     }
 
-    @PostMapping("/{postId}")
+    @PostMapping("/{topicId}/image")
     @ResponseStatus(HttpStatus.OK)
-    public void addPost(@RequestPart(required = false) MultipartFile image,
-                        @RequestPart String content,
-                        @PathVariable Long postId,
-                        Principal principal) {
-        postService.addPost(new AddPostRequest(content, image), postId, PrincipalUtil.getUserId(principal));
+    public ResponseEntity<AddPostResponse> addPostImage(@RequestPart MultipartFile image,
+                                                        @PathVariable Long topicId,
+                                                        Principal principal) {
+        return ResponseEntity.ok(
+                postService.addPost(null, image, topicId, PrincipalUtil.getUserId(principal))
+        );
     }
 
-    @PutMapping("/{postId}")
-    public void updatePost(@PathVariable Long postId, @RequestBody String content) {
-        postService.updatePostContent(postId, content);
+    @PutMapping("/{postId}/content")
+    public void updatePostContent(@RequestBody UpdateTopicRequest request,
+                                  @PathVariable Long postId,
+                                  Principal principal) {
+        postService.updatePost(request, null, postId, PrincipalUtil.getUserId(principal));
+    }
+
+    @PutMapping("/{postId}/image")
+    public void updatePostImage(@RequestPart MultipartFile image,
+                                @PathVariable Long postId,
+                                Principal principal) {
+        postService.updatePost(null, image, postId, PrincipalUtil.getUserId(principal));
     }
 
     @DeleteMapping("/{postId}")
-    public void deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    public void deletePost(@PathVariable Long postId, Principal principal) {
+        postService.deletePost(postId, PrincipalUtil.getUserId(principal));
     }
 
 }

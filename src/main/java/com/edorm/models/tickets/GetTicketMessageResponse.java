@@ -19,6 +19,6 @@ public class GetTicketMessageResponse {
 
     private byte[] image;
 
-    private boolean sendByUser;
+    private boolean sentByUser;
 
 }

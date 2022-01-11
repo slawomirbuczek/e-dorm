@@ -1,18 +1,24 @@
 package com.edorm.services.forum;
 
 import com.edorm.entities.forum.Post;
+import com.edorm.entities.forum.Topic;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
-import com.edorm.models.forum.*;
+import com.edorm.models.forum.AddPostRequest;
+import com.edorm.models.forum.AddPostResponse;
+import com.edorm.models.forum.GetPostResponse;
+import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.repositories.forum.PostRepository;
 import com.edorm.services.images.ImageService;
+import com.edorm.services.images.ImageUtil;
 import com.edorm.services.users.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -21,94 +27,82 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final TopicService topicService;
     private final ImageService imageService;
     private final UserService userService;
 
-    public void addPost(AddPostRequest request, Long topicId, long userId) {
-        Image image = saveImage(request.getImage());
-        User user = userService.getUser(userId);
-        Post topic = getTopic(topicId);
+    public AddPostResponse addPost(AddPostRequest request, MultipartFile file, long topicId, long userId) {
+        final User user = userService.getUser(userId);
+        final Image image = imageService.addImage(file);
+        final Topic topic = topicService.getTopic(topicId);
+        final String content = Objects.nonNull(request) ? request.getContent() : null;
 
         Post post = new Post();
+        post.setContent(content);
+        post.setImage(image);
         post.setCreateDate(LocalDateTime.now());
         post.setEdited(false);
-        post.setDeleted(false);
-        post.setContent(request.getContent());
-        post.setImage(image);
         post.setUser(user);
-        post.setTopic(topic);
+
+        post = postRepository.save(post);
+
+        return new AddPostResponse(post.getId());
+    }
+
+    public void updatePost(UpdateTopicRequest request, MultipartFile file, long postId, long userId) {
+        final Post post = getPost(postId);
+
+        if (!Objects.equals(post.getUser().getId(), userId)) {
+            return;
+        }
+
+        if (Objects.nonNull(request)) {
+            post.setContent(request.getContent());
+            post.setEdited(true);
+        }
+
+        if (Objects.nonNull(file)) {
+            Image image = imageService.addImage(file);
+            post.setImage(image);
+            post.setEdited(true);
+        }
+
         postRepository.save(post);
     }
 
-    //TODO pageable
-    public List<GetPostResponse> getPosts() {
-        List<GetPostResponse> posts = new ArrayList<>();
+    public void deletePost(long postId, long userId) {
+        final Post post = getPost(postId);
 
-        List<Post> topics = postRepository.findAllByTopicIsNullOrderByCreateDateDesc();
+        if (Objects.equals(post.getUser().getId(), userId)) {
+            postRepository.delete(post);
+        }
 
-        topics.forEach(topic -> {
-            List<PostResponse> responses = postRepository.findAllByTopicOrderByCreateDateAsc(topic).stream()
-                    .map(this::mapPostToResponse)
-                    .collect(Collectors.toList());
-
-            GetPostResponse getPostResponse = new GetPostResponse();
-            getPostResponse.setTopic(mapPostToResponse(topic));
-            getPostResponse.setResponses(responses);
-            posts.add(getPostResponse);
-        });
-
-        return posts;
     }
 
-    public void updatePostContent(long postId, String content) {
-        Post post = getPost(postId);
-        post.setContent(content);
-        post.setEdited(true);
-        updatePost(post);
-    }
+    public List<GetPostResponse> getPosts(long topicId) {
+        final Topic topic = topicService.getTopic(topicId);
 
-    public void deletePost(long postId) {
-        Post post = getPost(postId);
-        post.setDeleted(true);
-        updatePost(post);
+        return postRepository.findAllByTopicOrderByCreateDate(topic).stream()
+                .map(this::mapPostToResponse)
+                .collect(Collectors.toList());
     }
 
     private Post getPost(long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(NullPointerException::new);
+                .orElseThrow(() -> new NullPointerException("Post not found"));
     }
 
-    private void updatePost(Post post) {
-        postRepository.save(post);
-    }
+    private GetPostResponse mapPostToResponse(Post post) {
+        final User user = post.getUser();
 
-    private Image saveImage(MultipartFile multipartFile) {
-        return Objects.isNull(multipartFile) || multipartFile.isEmpty()
-                ? null
-                : imageService.addImage(multipartFile);
-    }
-
-    private Post getTopic(Long topicId) {
-        return Objects.nonNull(topicId) ? getPost(topicId) : null;
-    }
-
-    private PostResponse mapPostToResponse(Post post) {
-        String fullName = post.getUser().getFirstName() + " " + post.getUser().getLastName();
-        byte[] image = Objects.nonNull(post.getImage())
-                ? post.getImage().getContent()
-                : null;
-        byte[] photo = Objects.nonNull(post.getUser().getPhoto())
-                ? post.getUser().getPhoto().getContent()
-                : null;
-
-        PostResponse response = new PostResponse();
-        response.setId(post.getId());
-        response.setFullName(fullName);
-        response.setEdited(post.getEdited());
-        response.setDate(post.getCreateDate());
+        GetPostResponse response = new GetPostResponse();
+        response.setPostId(post.getId());
         response.setContent(post.getContent());
-        response.setImage(image);
-        response.setPhoto(photo);
+        response.setCreateDate(post.getCreateDate());
+        response.setEdited(post.getEdited());
+        response.setImage(ImageUtil.getImageContent(post.getImage()));
+        response.setFullName(user.getFirstName() + " " + user.getLastName());
+        response.setPhoto(ImageUtil.getImageContent(user.getPhoto()));
         return response;
     }
 

@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(RestEndpoint.COMPOSITION + UNIVERSAL_MATCHER).authenticated()
 
                 .antMatchers(RestEndpoint.POST + UNIVERSAL_MATCHER).authenticated()
+                .antMatchers(RestEndpoint.TOPIC + UNIVERSAL_MATCHER).authenticated()
 
                 .antMatchers(RestEndpoint.RENTABLE_ITEM + UNIVERSAL_MATCHER).authenticated()
                 .antMatchers(RestEndpoint.RENT_HISTORY + UNIVERSAL_MATCHER).authenticated()

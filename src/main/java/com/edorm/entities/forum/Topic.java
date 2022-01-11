@@ -2,8 +2,13 @@ package com.edorm.entities.forum;
 
 import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
-import lombok.*;
-import org.apache.commons.lang3.builder.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,8 +18,8 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "POST")
-public class Post {
+@Table(name = "TOPIC")
+public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +40,7 @@ public class Post {
     private Image image;
 
     @OneToOne
-    private User user;
-
-    @OneToOne
-    private Topic topic;
+    private User creator;
 
     @Override
     public String toString() {
@@ -47,9 +49,8 @@ public class Post {
                 .append("content", content)
                 .append("createDate", createDate)
                 .append("edited", edited)
-                .append("user", user)
+                .append("user", creator)
                 .append("forumImage", image)
-                .append("topic", topic)
                 .toString();
     }
 
@@ -59,16 +60,15 @@ public class Post {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Post post = (Post) o;
+        Topic topic = (Topic) o;
 
         return new EqualsBuilder()
-                .append(id, post.id)
-                .append(content, post.content)
-                .append(createDate, post.createDate)
-                .append(edited, post.edited)
-                .append(user, post.user)
-                .append(image, post.image)
-                .append(topic, post.topic)
+                .append(id, topic.id)
+                .append(content, topic.content)
+                .append(createDate, topic.createDate)
+                .append(edited, topic.edited)
+                .append(creator, topic.creator)
+                .append(image, topic.image)
                 .isEquals();
     }
 
@@ -79,9 +79,9 @@ public class Post {
                 .append(content)
                 .append(createDate)
                 .append(edited)
-                .append(user)
+                .append(creator)
                 .append(image)
-                .append(topic)
                 .toHashCode();
     }
+
 }
