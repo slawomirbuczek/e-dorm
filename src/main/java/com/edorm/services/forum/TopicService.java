@@ -30,11 +30,11 @@ public class TopicService {
 
     public AddTopicResponse addTopic(AddTopicRequest request, long userId) {
         final User user = userService.getUser(userId);
-        final String content = Objects.nonNull(request) ? request.getContent() : null;
+        final Image image = imageService.addImage(request.getImage());
 
         Topic topic = new Topic();
-        topic.setContent(content);
-        topic.setImage(null);
+        topic.setContent(request.getContent());
+        topic.setImage(image);
         topic.setCreateDate(LocalDateTime.now());
         topic.setEdited(false);
         topic.setCreator(user);

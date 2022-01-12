@@ -31,7 +31,7 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<AddTopicResponse> addTopic(@RequestBody AddTopicRequest request,
+    public ResponseEntity<AddTopicResponse> addTopic(@ModelAttribute AddTopicRequest request,
                                                      Principal principal) {
         return ResponseEntity.ok(
                 topicService.addTopic(request, PrincipalUtil.getUserId(principal))

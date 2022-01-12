@@ -30,23 +30,13 @@ public class PostController {
         );
     }
 
-    @PostMapping("/{topicId}/content")
+    @PostMapping("/{topicId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AddPostResponse> addPostContent(@RequestBody AddPostRequest request,
+    public ResponseEntity<AddPostResponse> addPost(@ModelAttribute AddPostRequest request,
                                                           @PathVariable Long topicId,
                                                           Principal principal) {
         return ResponseEntity.ok(
-                postService.addPost(request, null, topicId, PrincipalUtil.getUserId(principal))
-        );
-    }
-
-    @PostMapping("/{topicId}/image")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AddPostResponse> addPostImage(@RequestPart MultipartFile image,
-                                                        @PathVariable Long topicId,
-                                                        Principal principal) {
-        return ResponseEntity.ok(
-                postService.addPost(null, image, topicId, PrincipalUtil.getUserId(principal))
+                postService.addPost(request, topicId, PrincipalUtil.getUserId(principal))
         );
     }
 

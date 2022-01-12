@@ -31,14 +31,13 @@ public class PostService {
     private final ImageService imageService;
     private final UserService userService;
 
-    public AddPostResponse addPost(AddPostRequest request, MultipartFile file, long topicId, long userId) {
+    public AddPostResponse addPost(AddPostRequest request, long topicId, long userId) {
         final User user = userService.getUser(userId);
-        final Image image = imageService.addImage(file);
+        final Image image = imageService.addImage(request.getImage());
         final Topic topic = topicService.getTopic(topicId);
-        final String content = Objects.nonNull(request) ? request.getContent() : null;
 
         Post post = new Post();
-        post.setContent(content);
+        post.setContent(request.getContent());
         post.setImage(image);
         post.setCreateDate(LocalDateTime.now());
         post.setEdited(false);
