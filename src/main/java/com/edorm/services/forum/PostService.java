@@ -4,8 +4,6 @@ import com.edorm.entities.forum.Post;
 import com.edorm.entities.forum.Topic;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
-import com.edorm.models.forum.AddPostRequest;
-import com.edorm.models.forum.AddPostResponse;
 import com.edorm.models.forum.GetPostResponse;
 import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.repositories.forum.PostRepository;
@@ -31,22 +29,20 @@ public class PostService {
     private final ImageService imageService;
     private final UserService userService;
 
-    public AddPostResponse addPost(AddPostRequest request, long topicId, long userId) {
+    public void addPost(String content, MultipartFile file, long topicId, long userId) {
         final User user = userService.getUser(userId);
-        final Image image = imageService.addImage(request.getImage());
+        final Image image = imageService.addImage(file);
         final Topic topic = topicService.getTopic(topicId);
 
         Post post = new Post();
-        post.setContent(request.getContent());
+        post.setContent(content);
         post.setImage(image);
         post.setCreateDate(LocalDateTime.now());
         post.setEdited(false);
         post.setUser(user);
         post.setTopic(topic);
 
-        post = postRepository.save(post);
-
-        return new AddPostResponse(post.getId());
+        postRepository.save(post);
     }
 
     public void updatePost(UpdateTopicRequest request, MultipartFile file, long postId, long userId) {

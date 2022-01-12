@@ -1,8 +1,6 @@
 package com.edorm.controllers.forum;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.models.forum.AddTopicRequest;
-import com.edorm.models.forum.AddTopicResponse;
 import com.edorm.models.forum.GetTopicResponse;
 import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.services.forum.TopicService;
@@ -31,11 +29,11 @@ public class TopicController {
     }
 
     @PostMapping
-    public ResponseEntity<AddTopicResponse> addTopic(@ModelAttribute AddTopicRequest request,
-                                                     Principal principal) {
-        return ResponseEntity.ok(
-                topicService.addTopic(request, PrincipalUtil.getUserId(principal))
-        );
+    @ResponseStatus(HttpStatus.OK)
+    public void addTopic(@RequestPart String content,
+                         @RequestPart MultipartFile file,
+                         Principal principal) {
+        topicService.addTopic(content, file, PrincipalUtil.getUserId(principal));
     }
 
     @PutMapping("/{topicId}/content")
@@ -55,6 +53,7 @@ public class TopicController {
     }
 
     @DeleteMapping("/{topicId}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteTopic(@PathVariable Long topicId, Principal principal) {
         topicService.deleteTopic(topicId, PrincipalUtil.getUserId(principal));
     }

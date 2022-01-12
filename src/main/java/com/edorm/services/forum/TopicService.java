@@ -3,8 +3,6 @@ package com.edorm.services.forum;
 import com.edorm.entities.forum.Topic;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
-import com.edorm.models.forum.AddTopicRequest;
-import com.edorm.models.forum.AddTopicResponse;
 import com.edorm.models.forum.GetTopicResponse;
 import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.repositories.forum.TopicRepository;
@@ -28,20 +26,18 @@ public class TopicService {
     private final ImageService imageService;
     private final UserService userService;
 
-    public AddTopicResponse addTopic(AddTopicRequest request, long userId) {
+    public void addTopic(String content, MultipartFile file, long userId) {
         final User user = userService.getUser(userId);
-        final Image image = imageService.addImage(request.getImage());
+        final Image image = imageService.addImage(file);
 
         Topic topic = new Topic();
-        topic.setContent(request.getContent());
+        topic.setContent(content);
         topic.setImage(image);
         topic.setCreateDate(LocalDateTime.now());
         topic.setEdited(false);
         topic.setCreator(user);
 
-        topic = topicRepository.save(topic);
-
-        return new AddTopicResponse(topic.getId());
+        topicRepository.save(topic);
     }
 
     public void updateTopic(UpdateTopicRequest request, MultipartFile file, long topicId, long userId) {

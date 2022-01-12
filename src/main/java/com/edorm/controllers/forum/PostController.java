@@ -1,8 +1,6 @@
 package com.edorm.controllers.forum;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.models.forum.AddPostRequest;
-import com.edorm.models.forum.AddPostResponse;
 import com.edorm.models.forum.GetPostResponse;
 import com.edorm.models.forum.UpdateTopicRequest;
 import com.edorm.services.forum.PostService;
@@ -32,12 +30,11 @@ public class PostController {
 
     @PostMapping("/{topicId}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AddPostResponse> addPost(@ModelAttribute AddPostRequest request,
-                                                          @PathVariable Long topicId,
-                                                          Principal principal) {
-        return ResponseEntity.ok(
-                postService.addPost(request, topicId, PrincipalUtil.getUserId(principal))
-        );
+    public void addPost(@RequestPart String content,
+                        @RequestPart MultipartFile file,
+                        @PathVariable Long topicId,
+                        Principal principal) {
+        postService.addPost(content, file, topicId, PrincipalUtil.getUserId(principal));
     }
 
     @PutMapping("/{postId}/content")
