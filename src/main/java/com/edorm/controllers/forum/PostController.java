@@ -31,7 +31,7 @@ public class PostController {
     @PostMapping("/{topicId}")
     @ResponseStatus(HttpStatus.OK)
     public void addPost(@RequestPart String content,
-                        @RequestPart MultipartFile file,
+                        @RequestPart(required = false) MultipartFile file,
                         @PathVariable Long topicId,
                         Principal principal) {
         postService.addPost(content, file, topicId, PrincipalUtil.getUserId(principal));
