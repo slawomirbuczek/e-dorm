@@ -1,5 +1,6 @@
 package com.edorm.entities.rentable;
 
+import com.edorm.entities.images.Image;
 import lombok.*;
 import org.apache.commons.lang3.builder.*;
 
@@ -18,11 +19,14 @@ public class RentableItem {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "available", nullable = false)
     private Boolean available;
+
+    @OneToOne
+    private Image image;
 
     @Override
     public String toString() {
@@ -30,6 +34,7 @@ public class RentableItem {
                 .append("id", id)
                 .append("name", name)
                 .append("available", available)
+                .append("image", image)
                 .toString();
     }
 
@@ -45,6 +50,7 @@ public class RentableItem {
                 .append(id, that.id)
                 .append(name, that.name)
                 .append(available, that.available)
+                .append(image, that.image)
                 .isEquals();
     }
 
@@ -53,6 +59,7 @@ public class RentableItem {
         return new HashCodeBuilder(17, 37)
                 .append(id)
                 .append(name)
+                .append(image)
                 .append(available)
                 .toHashCode();
     }
