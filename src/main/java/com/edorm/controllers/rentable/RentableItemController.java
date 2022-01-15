@@ -2,6 +2,7 @@ package com.edorm.controllers.rentable;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.enums.rentable.RentableItemType;
+import com.edorm.models.images.GetImageResponse;
 import com.edorm.models.rentable.GetRentableItemResponse;
 import com.edorm.services.rentable.RentableItemService;
 import lombok.AllArgsConstructor;
@@ -19,10 +20,17 @@ public class RentableItemController {
 
     private final RentableItemService rentableItemService;
 
-    @GetMapping
-    public ResponseEntity<List<GetRentableItemResponse>> getRentableItems() {
+    @GetMapping("/{type}")
+    public ResponseEntity<List<GetRentableItemResponse>> getRentableItems(@PathVariable RentableItemType type) {
         return ResponseEntity.ok(
-                rentableItemService.getRentableItems()
+                rentableItemService.getRentableItems(type)
+        );
+    }
+
+    @GetMapping("/{rentableItemID}/image")
+    public ResponseEntity<GetImageResponse> getRentableItemsImage(@PathVariable long rentableItemID) {
+        return ResponseEntity.ok(
+                rentableItemService.getRentableItemImage(rentableItemID)
         );
     }
 

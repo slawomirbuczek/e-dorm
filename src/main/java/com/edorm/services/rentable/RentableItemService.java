@@ -3,6 +3,7 @@ package com.edorm.services.rentable;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.rentable.RentableItem;
 import com.edorm.enums.rentable.RentableItemType;
+import com.edorm.models.images.GetImageResponse;
 import com.edorm.models.rentable.GetRentableItemResponse;
 import com.edorm.repositories.rentable.RentableItemRepository;
 import com.edorm.services.images.ImageService;
@@ -27,15 +28,23 @@ public class RentableItemService {
         RentableItem rentableItem = new RentableItem();
         rentableItem.setName(name);
         rentableItem.setAvailable(true);
-        rentableItem.setRentableItemType(type);
+        rentableItem.setType(type);
         rentableItem.setImage(image);
         rentableItemRepository.save(rentableItem);
     }
 
-    public List<GetRentableItemResponse> getRentableItems() {
-        return rentableItemRepository.findAll().stream()
+    public List<GetRentableItemResponse> getRentableItems(RentableItemType type) {
+        return rentableItemRepository.findAllByTypeOrderByName(type).stream()
                 .map(this::mapRentableItemToResponse)
                 .collect(Collectors.toList());
+    }
+
+    public GetImageResponse getRentableItemImage(long rentableItemId) {
+        final RentableItem rentableItem = getRentableItem(rentableItemId);
+        final Image image = rentableItem.getImage();
+        final byte[] imageContent = ImageUtil.getImageContent(image);
+
+        return new GetImageResponse(imageContent);
     }
 
     protected RentableItem getRentableItem(long rentableItemId) {
@@ -53,8 +62,6 @@ public class RentableItemService {
         response.setId(rentableItem.getId());
         response.setName(rentableItem.getName());
         response.setAvailable(rentableItem.getAvailable());
-        response.setType(rentableItem.getRentableItemType());
-        response.setImage(ImageUtil.getImageContent(rentableItem.getImage()));
         return response;
     }
 

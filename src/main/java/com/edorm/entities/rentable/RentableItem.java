@@ -28,7 +28,7 @@ public class RentableItem {
 
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private RentableItemType rentableItemType;
+    private RentableItemType type;
 
     @OneToOne
     private Image image;
