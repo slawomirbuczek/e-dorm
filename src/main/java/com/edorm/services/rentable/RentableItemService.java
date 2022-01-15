@@ -2,6 +2,7 @@ package com.edorm.services.rentable;
 
 import com.edorm.entities.images.Image;
 import com.edorm.entities.rentable.RentableItem;
+import com.edorm.enums.rentable.RentableItemType;
 import com.edorm.models.rentable.GetRentableItemResponse;
 import com.edorm.repositories.rentable.RentableItemRepository;
 import com.edorm.services.images.ImageService;
@@ -20,12 +21,13 @@ public class RentableItemService {
     private final RentableItemRepository rentableItemRepository;
     private final ImageService imageService;
 
-    public void addRentableItem(String name, MultipartFile file) {
+    public void addRentableItem(String name, MultipartFile file, RentableItemType type) {
         final Image image = imageService.addImage(file);
 
         RentableItem rentableItem = new RentableItem();
         rentableItem.setName(name);
         rentableItem.setAvailable(true);
+        rentableItem.setRentableItemType(type);
         rentableItem.setImage(image);
         rentableItemRepository.save(rentableItem);
     }
@@ -51,6 +53,7 @@ public class RentableItemService {
         response.setId(rentableItem.getId());
         response.setName(rentableItem.getName());
         response.setAvailable(rentableItem.getAvailable());
+        response.setType(rentableItem.getRentableItemType());
         response.setImage(ImageUtil.getImageContent(rentableItem.getImage()));
         return response;
     }

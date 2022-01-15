@@ -1,6 +1,7 @@
 package com.edorm.controllers.rentable;
 
 import com.edorm.controllers.RestEndpoint;
+import com.edorm.enums.rentable.RentableItemType;
 import com.edorm.models.rentable.GetRentableItemResponse;
 import com.edorm.services.rentable.RentableItemService;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,10 @@ public class RentableItemController {
         );
     }
 
-    @PostMapping
+    @PostMapping("/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public void addRentableItem(@RequestPart String name, @RequestPart MultipartFile file) {
-        rentableItemService.addRentableItem(name, file);
+    public void addRentableItem(@RequestPart String name, @RequestPart MultipartFile file, @PathVariable RentableItemType type) {
+        rentableItemService.addRentableItem(name, file, type);
     }
 
 }

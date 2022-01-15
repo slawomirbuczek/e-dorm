@@ -1,6 +1,7 @@
 package com.edorm.entities.rentable;
 
 import com.edorm.entities.images.Image;
+import com.edorm.enums.rentable.RentableItemType;
 import lombok.*;
 import org.apache.commons.lang3.builder.*;
 
@@ -24,6 +25,10 @@ public class RentableItem {
 
     @Column(name = "available", nullable = false)
     private Boolean available;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RentableItemType rentableItemType;
 
     @OneToOne
     private Image image;
