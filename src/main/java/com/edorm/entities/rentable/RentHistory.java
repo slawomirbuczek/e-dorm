@@ -29,7 +29,7 @@ public class RentHistory {
     @OneToOne
     private RentableItem rentableItem;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @Override

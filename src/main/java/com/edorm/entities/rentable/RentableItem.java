@@ -30,7 +30,7 @@ public class RentableItem {
     @Enumerated(EnumType.STRING)
     private RentableItemType type;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Image image;
 
     @Override
