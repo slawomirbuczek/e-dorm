@@ -35,7 +35,7 @@ public class AnnouncementService {
 
     @Transactional
     public List<GetAnnouncementsResponse> getAnnouncements() {
-        return announcementRepository.findAllByDisabledFalseOrderByDateAsc().stream()
+        return announcementRepository.findAllByDisabledFalseOrderByDateDesc().stream()
                 .map(this::mapAnnouncementToResponse)
                 .collect(Collectors.toList());
     }

@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
 
-    List<Announcement> findAllByDisabledFalseOrderByDateAsc();
+    List<Announcement> findAllByDisabledFalseOrderByDateDesc();
 
 }
