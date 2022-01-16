@@ -1,5 +1,6 @@
 package com.edorm.exceptions;
 
+import com.edorm.exceptions.reservation.ReservationNotAvailableException;
 import com.edorm.exceptions.users.*;
 import com.edorm.models.ResponseMessage;
 import com.edorm.models.validations.ValidationExceptionMessages;
@@ -75,6 +76,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AddressNotFoundException.class)
     public ResponseMessage handleAddressNotFoundException(AddressNotFoundException ex) {
+        return new ResponseMessage(ex.getMessage());
+    }
+
+    @ExceptionHandler(ReservationNotAvailableException.class)
+    public ResponseMessage handleReservationNotAvailableException(ReservationNotAvailableException ex) {
         return new ResponseMessage(ex.getMessage());
     }
 

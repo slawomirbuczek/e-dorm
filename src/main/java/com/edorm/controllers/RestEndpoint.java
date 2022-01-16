@@ -21,6 +21,7 @@ public class RestEndpoint {
     public static final String CONVERSATION = "/conversations";
     public static final String TICKET = "/tickets";
     public static final String TICKET_MESSAGE = "/ticket-messages";
+    public static final String RESERVATION = "/reservations";
 
 
 }
