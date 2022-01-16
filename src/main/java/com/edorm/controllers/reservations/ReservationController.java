@@ -2,6 +2,7 @@ package com.edorm.controllers.reservations;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.enums.reservations.ReservationType;
+import com.edorm.models.reservations.GetReservationHistoryResponse;
 import com.edorm.models.reservations.GetReservationResponse;
 import com.edorm.services.reservations.ReservationService;
 import com.edorm.utils.PrincipalUtil;
@@ -32,6 +33,13 @@ public class ReservationController {
     @PostMapping("/{reservationId}")
     public void reserve(@PathVariable long reservationId, Principal principal) {
         reservationService.reserve(reservationId, PrincipalUtil.getUserId(principal));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<GetReservationHistoryResponse>> getReservationHistory(Principal principal) {
+        return ResponseEntity.ok(
+                reservationService.getReservationHistory(PrincipalUtil.getUserId(principal))
+        );
     }
 
 }

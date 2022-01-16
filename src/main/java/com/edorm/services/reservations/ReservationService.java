@@ -4,6 +4,7 @@ import com.edorm.entities.reservations.Reservation;
 import com.edorm.entities.users.User;
 import com.edorm.enums.reservations.ReservationType;
 import com.edorm.exceptions.reservation.ReservationNotAvailableException;
+import com.edorm.models.reservations.GetReservationHistoryResponse;
 import com.edorm.models.reservations.GetReservationResponse;
 import com.edorm.repositories.reservations.ReservationRepository;
 import com.edorm.services.users.UserService;
@@ -43,8 +44,16 @@ public class ReservationService {
         if (!reservationExists(date, type)) {
             createReservations(date, type);
         }
-        return reservationRepository.getAllByDateAndTypeOrderByTime(date, type).stream()
+        return reservationRepository.findAllByDateAndTypeOrderByTime(date, type).stream()
                 .map(reservation -> mapReservationToResponse(reservation, userId))
+                .collect(Collectors.toList());
+    }
+
+    public List<GetReservationHistoryResponse> getReservationHistory(long userId) {
+        final User user = userService.getUser(userId);
+
+        return reservationRepository.findAllByUserOrderByDateDesc(user).stream()
+                .map(this::mapReservationHistoryToResponse)
                 .collect(Collectors.toList());
     }
 
@@ -78,13 +87,24 @@ public class ReservationService {
     private GetReservationResponse mapReservationToResponse(Reservation reservation, long userId) {
         final boolean available = Objects.isNull(reservation.getUser());
         final boolean reservedByUser = Objects.nonNull(reservation.getUser()) && reservation.getUser().getId() == userId;
+        final int interval = reservation.getType().getInterval();
 
         GetReservationResponse response = new GetReservationResponse();
         response.setId(reservation.getId());
         response.setStartTime(reservation.getTime());
-        response.setEndTime(reservation.getTime().plusHours(3));
+        response.setEndTime(reservation.getTime().plusHours(interval));
         response.setAvailable(available);
         response.setReservedByUser(reservedByUser);
+        return response;
+    }
+
+    private GetReservationHistoryResponse mapReservationHistoryToResponse(Reservation reservation) {
+        final int interval = reservation.getType().getInterval();
+
+        GetReservationHistoryResponse response = new GetReservationHistoryResponse();
+        response.setDate(reservation.getDate());
+        response.setStartTime(reservation.getTime());
+        response.setEndTime(reservation.getTime().plusHours(interval));
         return response;
     }
 
