@@ -35,10 +35,10 @@ public class ReservationController {
         reservationService.reserve(reservationId, PrincipalUtil.getUserId(principal));
     }
 
-    @GetMapping
-    public ResponseEntity<List<GetReservationHistoryResponse>> getReservationHistory(Principal principal) {
+    @GetMapping("/{type}")
+    public ResponseEntity<List<GetReservationHistoryResponse>> getReservationHistory(@PathVariable ReservationType type, Principal principal) {
         return ResponseEntity.ok(
-                reservationService.getReservationHistory(PrincipalUtil.getUserId(principal))
+                reservationService.getReservationHistory(type, PrincipalUtil.getUserId(principal))
         );
     }
 

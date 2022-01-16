@@ -49,10 +49,10 @@ public class ReservationService {
                 .collect(Collectors.toList());
     }
 
-    public List<GetReservationHistoryResponse> getReservationHistory(long userId) {
+    public List<GetReservationHistoryResponse> getReservationHistory(ReservationType type, long userId) {
         final User user = userService.getUser(userId);
 
-        return reservationRepository.findAllByUserOrderByDateDesc(user).stream()
+        return reservationRepository.findAllByUserAndTypeOrderByDateDesc(user, type).stream()
                 .map(this::mapReservationHistoryToResponse)
                 .collect(Collectors.toList());
     }

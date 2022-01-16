@@ -18,6 +18,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     boolean existsByDateAndType(LocalDate date, ReservationType type);
 
-    List<Reservation> findAllByUserOrderByDateDesc(User user);
+    List<Reservation> findAllByUserAndTypeOrderByDateDesc(User user, ReservationType type);
 
 }
