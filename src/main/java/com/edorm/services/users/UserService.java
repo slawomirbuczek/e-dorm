@@ -1,15 +1,18 @@
 package com.edorm.services.users;
 
-import com.edorm.dtos.users.UserDto;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
-import com.edorm.exceptions.users.*;
-import com.edorm.models.users.*;
+import com.edorm.exceptions.users.EmailAlreadyTakenException;
+import com.edorm.exceptions.users.TheSamePasswordException;
+import com.edorm.exceptions.users.UserNotFoundException;
+import com.edorm.exceptions.users.WrongPasswordException;
+import com.edorm.models.users.GetUserBasicInfoResponse;
+import com.edorm.models.users.GetUserResponse;
+import com.edorm.models.users.RequestChangePassword;
 import com.edorm.repositories.users.UserRepository;
 import com.edorm.services.images.ImageService;
 import lombok.AllArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +26,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final ModelMapper mapper;
     private final PasswordEncoder encoder;
     private final ImageService imageService;
-
-    public UserDto getUserDto(long id) {
-        return mapper.map(getUser(id), UserDto.class);
-    }
 
     public User getUser(long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));

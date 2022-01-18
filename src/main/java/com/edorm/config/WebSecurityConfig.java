@@ -1,10 +1,12 @@
 package com.edorm.config;
 
-import com.edorm.auth.*;
+import com.edorm.auth.JwtAuthenticationEntryPoint;
+import com.edorm.auth.JwtTokenAuthenticationFilter;
+import com.edorm.auth.JwtUsernameAndPasswordAuthenticationFilter;
+import com.edorm.auth.UserDetailsServiceImpl;
 import com.edorm.controllers.RestEndpoint;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -85,11 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public ModelMapper mapper() {
-        return new ModelMapper();
     }
 
     @Bean
