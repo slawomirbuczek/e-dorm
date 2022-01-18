@@ -1,7 +1,6 @@
 package com.edorm.controllers.messages;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.models.messages.AddMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.services.messages.MessageService;
 import com.edorm.utils.PrincipalUtil;
@@ -21,24 +20,19 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/{conversationId}/content" )
+    @PostMapping("/{conversationId}/content")
     @ResponseStatus(HttpStatus.OK)
-    public void addContentMessage(@RequestBody AddMessageRequest request,
-                                  @PathVariable long conversationId,
-                                  Principal principal) {
-        messageService.addMessage(request, null, conversationId, PrincipalUtil.getUserId(principal));
+    public void addMessage(@RequestPart(required = false) String content,
+                           @RequestPart(required = false) MultipartFile file,
+                           @PathVariable Long conversationId,
+                           Principal principal) {
+        messageService.addMessage(content, file, conversationId, PrincipalUtil.getUserId(principal));
     }
 
-    @PostMapping("/{conversationId}/image")
-    @ResponseStatus(HttpStatus.OK)
-    public void addImageMessage(@RequestPart MultipartFile image,
-                                @PathVariable long conversationId,
-                                Principal principal) {
-        messageService.addMessage(null, image, conversationId, PrincipalUtil.getUserId(principal));
-    }
 
     @GetMapping("/{conversationId}")
-    public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId, Principal principal) {
+    public ResponseEntity<List<GetMessageResponse>> getMessages(@PathVariable long conversationId,
+                                                                Principal principal) {
         return ResponseEntity.ok(messageService.getMessages(conversationId, PrincipalUtil.getUserId(principal)));
     }
 

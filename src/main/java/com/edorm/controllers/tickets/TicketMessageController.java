@@ -1,7 +1,6 @@
 package com.edorm.controllers.tickets;
 
 import com.edorm.controllers.RestEndpoint;
-import com.edorm.models.tickets.AddTicketMessageRequest;
 import com.edorm.models.tickets.GetTicketMessageResponse;
 import com.edorm.services.tickets.TicketMessageService;
 import com.edorm.utils.PrincipalUtil;
@@ -23,18 +22,11 @@ public class TicketMessageController {
 
     @PostMapping("/{ticketId}/content")
     @ResponseStatus(HttpStatus.OK)
-    public void addTicketMessageContent(@RequestBody AddTicketMessageRequest request,
-                                        @PathVariable long ticketId,
-                                        Principal principal) {
-        ticketMessageService.addTicketMessage(request, null, ticketId, PrincipalUtil.getUserId(principal));
-    }
-
-    @PostMapping("/{ticketId}/image")
-    @ResponseStatus(HttpStatus.OK)
-    public void addTicketMessageImage(@RequestPart MultipartFile image,
-                                      @PathVariable long ticketId,
-                                      Principal principal) {
-        ticketMessageService.addTicketMessage(null, image, ticketId, PrincipalUtil.getUserId(principal));
+    public void addTicketMessage(@RequestPart(required = false) String content,
+                         @RequestPart(required = false) MultipartFile file,
+                         @PathVariable Long ticketId,
+                         Principal principal) {
+        ticketMessageService.addTicketMessage(content, file, ticketId, PrincipalUtil.getUserId(principal));
     }
 
     @GetMapping("/{ticketId}")

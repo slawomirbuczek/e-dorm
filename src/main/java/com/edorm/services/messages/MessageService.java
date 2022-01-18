@@ -4,7 +4,6 @@ import com.edorm.entities.images.Image;
 import com.edorm.entities.messages.Conversation;
 import com.edorm.entities.messages.Message;
 import com.edorm.entities.users.User;
-import com.edorm.models.messages.AddMessageRequest;
 import com.edorm.models.messages.GetMessageResponse;
 import com.edorm.repositories.messages.MessageRepository;
 import com.edorm.services.images.ImageService;
@@ -15,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,11 +28,10 @@ public class MessageService {
     private final UserService userService;
     private final ConversationService conversationService;
 
-    public void addMessage(AddMessageRequest request, MultipartFile file, long conversationId, long userId) {
+    public void addMessage(String content, MultipartFile file, long conversationId, long userId) {
         final User sender = userService.getUser(userId);
         final Image image = imageService.addImage(file);
         final Conversation conversation = conversationService.getConversation(conversationId);
-        final String content = Objects.nonNull(request) ? request.getContent() : null;
 
         Message message = new Message();
         message.setContent(content);

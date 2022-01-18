@@ -3,7 +3,6 @@ package com.edorm.services.tickets;
 import com.edorm.entities.images.Image;
 import com.edorm.entities.tickets.Ticket;
 import com.edorm.entities.tickets.TicketMessage;
-import com.edorm.models.tickets.AddTicketMessageRequest;
 import com.edorm.models.tickets.GetTicketMessageResponse;
 import com.edorm.repositories.tickets.TicketMessageRepository;
 import com.edorm.services.images.ImageService;
@@ -14,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +25,7 @@ public class TicketMessageService {
     private final TicketService ticketService;
     private final ImageService imageService;
 
-    public void addTicketMessage(AddTicketMessageRequest request, MultipartFile file, long ticketId, long userId) {
+    public void addTicketMessage(String content, MultipartFile file, long ticketId, long userId) {
         final Ticket ticket = ticketService.getTicket(ticketId);
 
         if (!ticket.getOpen()) {
@@ -33,8 +33,6 @@ public class TicketMessageService {
         }
 
         final Image image = imageService.addImage(file);
-        final String content = Objects.nonNull(request) ? request.getContent() : null;
-
 
         if (Objects.equals(ticket.getUser().getId(), userId)) {
             TicketMessage ticketMessage = new TicketMessage();
@@ -43,6 +41,7 @@ public class TicketMessageService {
             ticketMessage.setCreateDate(LocalDateTime.now());
             ticketMessage.setImage(image);
             ticketMessage.setSentByUser(true);
+
             ticketMessageRepository.save(ticketMessage);
         }
     }

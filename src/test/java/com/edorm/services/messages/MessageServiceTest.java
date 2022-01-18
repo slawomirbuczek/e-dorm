@@ -4,13 +4,15 @@ import com.edorm.entities.messages.Conversation;
 import com.edorm.entities.messages.Message;
 import com.edorm.entities.users.User;
 import com.edorm.enums.Role;
-import com.edorm.models.messages.AddMessageRequest;
 import com.edorm.repositories.messages.MessageRepository;
 import com.edorm.services.images.ImageService;
 import com.edorm.services.users.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,9 +54,8 @@ class MessageServiceTest {
         given(imageService.addImage(null)).willReturn(null);
         given(conversationService.getConversation(conversationId)).willReturn(getMockConversation());
 
-        AddMessageRequest addMessageRequest = new AddMessageRequest(messageContent);
 
-        messageService.addMessage(addMessageRequest, null, conversationId, userId);
+        messageService.addMessage(messageContent, null, conversationId, userId);
 
         verify(userService, times(1)).getUser(userId);
         verify(imageService, times(1)).addImage(null);
