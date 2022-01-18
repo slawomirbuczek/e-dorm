@@ -20,7 +20,7 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/{conversationId}/content")
+    @PostMapping("/{conversationId}")
     @ResponseStatus(HttpStatus.OK)
     public void addMessage(@RequestPart(required = false) String content,
                            @RequestPart(required = false) MultipartFile file,

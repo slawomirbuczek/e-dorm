@@ -20,7 +20,7 @@ public class TicketMessageController {
 
     private final TicketMessageService ticketMessageService;
 
-    @PostMapping("/{ticketId}/content")
+    @PostMapping("/{ticketId}")
     @ResponseStatus(HttpStatus.OK)
     public void addTicketMessage(@RequestPart(required = false) String content,
                          @RequestPart(required = false) MultipartFile file,
