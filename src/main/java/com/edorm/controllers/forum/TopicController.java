@@ -30,7 +30,7 @@ public class TopicController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void addTopic(@RequestPart String content,
+    public void addTopic(@RequestPart(required = false) String content,
                          @RequestPart(required = false) MultipartFile file,
                          Principal principal) {
         topicService.addTopic(content, file, PrincipalUtil.getUserId(principal));

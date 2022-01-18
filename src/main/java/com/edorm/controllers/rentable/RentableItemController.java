@@ -36,7 +36,7 @@ public class RentableItemController {
 
     @PostMapping("/{type}")
     @ResponseStatus(HttpStatus.OK)
-    public void addRentableItem(@RequestPart String name, @RequestPart MultipartFile file, @PathVariable RentableItemType type) {
+    public void addRentableItem(@RequestPart(required = false) String name, @RequestPart MultipartFile file, @PathVariable RentableItemType type) {
         rentableItemService.addRentableItem(name, file, type);
     }
 

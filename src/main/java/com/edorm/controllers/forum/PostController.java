@@ -30,7 +30,7 @@ public class PostController {
 
     @PostMapping("/{topicId}")
     @ResponseStatus(HttpStatus.OK)
-    public void addPost(@RequestPart String content,
+    public void addPost(@RequestPart(required = false) String content,
                         @RequestPart(required = false) MultipartFile file,
                         @PathVariable Long topicId,
                         Principal principal) {
