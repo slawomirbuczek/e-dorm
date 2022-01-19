@@ -21,6 +21,11 @@ public class ResidentController {
 
     private final ResidentService residentService;
 
+    @GetMapping("/self")
+    public ResponseEntity<GetResidentInfoResponse> getSelfResidentInfo(Principal principal) {
+        return ResponseEntity.ok(residentService.getResidentInfo(PrincipalUtil.getUserId(principal)));
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<GetResidentInfoResponse> getResidentInfo(@PathVariable Long userId) {
         return ResponseEntity.ok(residentService.getResidentInfo(userId));
