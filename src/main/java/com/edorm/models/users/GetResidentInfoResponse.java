@@ -21,6 +21,6 @@ public class GetResidentInfoResponse {
 
     private String roomNumber;
 
-    private String compositionName;
+    private String compositionNumber;
 
 }

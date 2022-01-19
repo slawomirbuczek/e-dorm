@@ -55,7 +55,7 @@ public class ResidentService {
         response.setBirthday(resident.getUser().getBirthday());
         response.setPhoto(photo);
         response.setRoomNumber(resident.getRoom().getNumber());
-        response.setCompositionName(resident.getRoom().getComposition().getNumber());
+        response.setCompositionNumber(resident.getRoom().getComposition().getNumber());
         return response;
     }
 
