@@ -10,6 +10,7 @@ public class RestEndpoint {
     public static final String LOGIN = "/login";
     public static final String REGISTRATION = "/registration";
     public static final String USER = "/users";
+    public static final String RESIDENT = "/residents";
     public static final String COMPOSITION = "/compositions";
     public static final String ROOM = "/rooms";
     public static final String POST = "/posts";

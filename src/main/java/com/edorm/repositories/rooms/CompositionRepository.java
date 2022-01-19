@@ -9,8 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CompositionRepository extends JpaRepository<Composition, Long> {
 
-    Optional<Composition> findByName(String name);
-
-    void deleteByName(String name);
+    Optional<Composition> findByNumber(String number);
 
 }

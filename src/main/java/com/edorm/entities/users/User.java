@@ -2,22 +2,21 @@ package com.edorm.entities.users;
 
 import com.edorm.entities.images.Image;
 import com.edorm.enums.Role;
-import lombok.*;
-import org.apache.commons.lang3.builder.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import static java.util.Collections.singletonList;
 
+@Data
+@NoArgsConstructor
 @Entity
-@Getter
-@Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
 @Table(name = "APP_USER")
 public class User implements UserDetails {
 
@@ -41,6 +40,12 @@ public class User implements UserDetails {
 
     @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "birthday")
+    private LocalDate birthday;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Image photo;
@@ -72,51 +77,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("password", password)
-                .append("email", email)
-                .append("role", role)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
-                .append("photo", photo)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return new EqualsBuilder()
-                .append(id, user.id)
-                .append(password, user.password)
-                .append(email, user.email)
-                .append(role, user.role)
-                .append(firstName, user.firstName)
-                .append(lastName, user.lastName)
-                .append(photo, user.photo)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(id)
-                .append(password)
-                .append(email)
-                .append(role)
-                .append(firstName)
-                .append(lastName)
-                .append(photo)
-                .toHashCode();
     }
 
 }

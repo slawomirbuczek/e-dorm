@@ -74,10 +74,6 @@ public class GlobalExceptionHandler {
         return new ResponseMessage(ex.getMessage());
     }
 
-    @ExceptionHandler(AddressNotFoundException.class)
-    public ResponseMessage handleAddressNotFoundException(AddressNotFoundException ex) {
-        return new ResponseMessage(ex.getMessage());
-    }
 
     @ExceptionHandler(ReservationNotAvailableException.class)
     public ResponseMessage handleReservationNotAvailableException(ReservationNotAvailableException ex) {

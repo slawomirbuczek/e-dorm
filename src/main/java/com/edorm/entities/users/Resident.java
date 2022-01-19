@@ -1,16 +1,13 @@
 package com.edorm.entities.users;
 
 import com.edorm.entities.rooms.Room;
-import lombok.*;
-import org.apache.commons.lang3.builder.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
-@Getter
-@Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "RESIDENT")
 public class Resident {
@@ -20,60 +17,10 @@ public class Resident {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
-
-    @Column(name = "birthday", nullable = false)
-    private LocalDate birthday;
-
     @OneToOne
     private User user;
 
     @OneToOne
-    private Address address;
-
-    @OneToOne
     private Room room;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("phoneNumber", phoneNumber)
-                .append("birthday", birthday)
-                .append("user", user)
-                .append("address", address)
-                .append("room", room)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Resident resident = (Resident) o;
-
-        return new EqualsBuilder()
-                .append(id, resident.id)
-                .append(phoneNumber, resident.phoneNumber)
-                .append(birthday, resident.birthday)
-                .append(user, resident.user)
-                .append(address, resident.address)
-                .append(room, resident.room)
-                .isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37)
-                .append(id)
-                .append(phoneNumber)
-                .append(birthday)
-                .append(user)
-                .append(address)
-                .append(room)
-                .toHashCode();
-    }
 }

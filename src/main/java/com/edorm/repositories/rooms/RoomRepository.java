@@ -11,6 +11,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
     Optional<Room> findByNumber(String number);
 
-    void deleteByNumber(String number);
+    boolean existsByNumber(String number);
 
 }

@@ -2,6 +2,7 @@ package com.edorm.controllers.rooms;
 
 import com.edorm.controllers.RestEndpoint;
 import com.edorm.entities.rooms.Composition;
+import com.edorm.models.rooms.AddCompositionRequest;
 import com.edorm.services.rooms.CompositionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,9 +18,9 @@ public class CompositionController {
 
     private final CompositionService compositionService;
 
-    @GetMapping("/{name}")
-    public ResponseEntity<Composition> getComposition(@PathVariable String name) {
-        return ResponseEntity.ok(compositionService.getComposition(name));
+    @GetMapping("/{compositionNumber}")
+    public ResponseEntity<Composition> getComposition(@PathVariable String compositionNumber) {
+        return ResponseEntity.ok(compositionService.getComposition(compositionNumber));
     }
 
     @GetMapping
@@ -29,14 +30,8 @@ public class CompositionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public void addComposition(@RequestBody Composition composition) {
-        compositionService.addComposition(composition);
-    }
-
-    @DeleteMapping("/{name}")
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteComposition(@PathVariable String name) {
-        compositionService.deleteComposition(name);
+    public void addComposition(@RequestBody AddCompositionRequest request) {
+        compositionService.addComposition(request);
     }
 
 }
