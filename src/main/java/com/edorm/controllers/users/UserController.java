@@ -36,6 +36,14 @@ public class UserController {
         userService.changePassword(PrincipalUtil.getUserId(principal), request);
     }
 
+    @PostMapping("/password/check")
+    public ResponseEntity<PostCheckUserPasswordResponse> checkUserPassword(
+            @RequestBody PostCheckUserPasswordRequest request, Principal principal) {
+        return ResponseEntity.ok(
+                userService.checkUserPassword(request, PrincipalUtil.getUserId(principal))
+        );
+    }
+
     @PutMapping("/photo")
     @ResponseStatus(HttpStatus.OK)
     public void updatePhoto(@RequestPart MultipartFile photo, Principal principal) {

@@ -7,9 +7,7 @@ import com.edorm.exceptions.users.EmailAlreadyTakenException;
 import com.edorm.exceptions.users.TheSamePasswordException;
 import com.edorm.exceptions.users.UserNotFoundException;
 import com.edorm.exceptions.users.WrongPasswordException;
-import com.edorm.models.users.GetUserBasicInfoResponse;
-import com.edorm.models.users.GetUserResponse;
-import com.edorm.models.users.RequestChangePassword;
+import com.edorm.models.users.*;
 import com.edorm.repositories.users.UserRepository;
 import com.edorm.services.images.ImageService;
 import lombok.AllArgsConstructor;
@@ -81,6 +79,16 @@ public class UserService {
         }
     }
 
+    public PostCheckUserPasswordResponse checkUserPassword(PostCheckUserPasswordRequest request, long userId) {
+        final User user = getUser(userId);
+        final String currentPassword = user.getPassword();
+        final String encodedPassword = encodePassword(request.getPassword());
+
+        final boolean passwordEquals = Objects.equals(currentPassword, encodedPassword);
+
+        return new PostCheckUserPasswordResponse(passwordEquals);
+    }
+
     public void addPhoto(MultipartFile photo, long userId) {
         Image image = imageService.addImage(photo);
         User user = getUser(userId);
@@ -96,7 +104,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public GetUserResponse mapUserToGetUserResponse(User user) {
+    private GetUserResponse mapUserToGetUserResponse(User user) {
         byte[] photo = Objects.nonNull(user.getPhoto()) ? user.getPhoto().getContent() : null;
 
         GetUserResponse getUserResponse = new GetUserResponse();
